@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Detail information</title>
 </head>
 <body>
-    <h1>Detail information</h1>
-    <div th:object="${book}">
-        <p>Name: <span th:text = "${book.getName}"/></p>
-        <p>Author: <span th:text = "${book.getAuthor}"/></p>
-        <p>Year: <span th:text = "${book.getYear}"/></p>
-        <p>Description: SOME INFORMATION ABOUT THE BOOK IN THE FUTURE</p>
+    <div class="container">
+        <div class="row">
+            <h1 class="display-3">Detail information</h1>
+            <hr>
+        </div>
+        <div class = "row">
+            <div th:object="${book}">
+                <p><b>Name: </b><span th:text = "${book.getName}"/></p>
+                <p><b>Author: </b><span th:text = "${book.getAuthor}"/></p>
+                <p><b>Year: </b><span th:text = "${book.getYear}"/></p>
+                <p><b>Description: </b> SOME INFORMATION ABOUT THE BOOK IN THE FUTURE</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

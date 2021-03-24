@@ -1,38 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
     <meta charset="UTF-8">
     <title>Books</title>
 </head>
 <body>
-    <table border="1">
-        <tr th:each="book: ${books}">
-            <th th:text="${book.getName()}"/>
-            <th th:text="${book.getAuthor()}"/>
-            <th th:text="${book.getYear()}"/>
-            <th>
-                <a th:href="@{/books/{id} (id = ${book.id})}">
-                    Delete
-                </a>
-            </th>
-            <th>
-                <a th:href="@{/books/update/{id} (id = ${book.id})}">
-                    Update
-                </a>
-            </th>
-            <th>
-                <a th:href="@{/books/book/{id} (id = ${book.id})}">
-                    Detail
-                </a>
-            </th>
-        </tr>
-    </table>
-    <form  action="#" th:action="@{/books/add}" method="post" th:object="${book}">
-        <input type="text" th:field="*{name}"/>
-        <input type="text" th:field="*{author}"/>
-        <input type="text" th:field="*{year}"/>
-        <button type="submit"> Add </button>
-    </form>
-
+    <div class="container">
+        <div class="row">
+            <h2 class="display-3">List of books</h2>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form  align="center" class="form-inline my-4" action="#" th:action="@{/books/add}" method="post" th:object="${book}">
+                    <label>Name: <input type="text" th:field="*{name}"/> </label>
+                    <label>Author: <input type="text" th:field="*{author}"/> </label>
+                    <label>Year: <input type="text" th:field="*{year}"/> </label>
+                    <button type="submit" class="btn btn-warning btn-sm mx-2"> Add </button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered table striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Author(s)</th>
+                        <th>Year of publication</th>
+                        <th>Functions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-warning" th:each="book: ${books}">
+                        <td th:text="${book.getName()}"/>
+                        <td th:text="${book.getAuthor()}"/>
+                        <td th:text="${book.getYear()}"/>
+                        <td>
+                            <a type="submit" class="btn btn-danger btn-sm mx-2" th:href="@{/books/{id} (id = ${book.id})}">Delete</a>
+                            <a type="submit" class="btn btn-warning btn-sm mx-2" th:href="@{/books/update/{id} (id = ${book.id})}">Update</a>
+                            <a type="submit" class="btn btn-info btn-sm mx-2" th:href="@{/books/book/{id} (id = ${book.id})}">Details</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

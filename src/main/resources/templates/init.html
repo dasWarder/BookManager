@@ -2,11 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
     <meta charset="UTF-8">
     <title>Main Page</title>
 </head>
-<body>
-    <h1>Welcome To our BookManager!</h1>
-    <a th:href="@{/books}">Start work</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm my-4" align="center">
+                <h1 class="display-2">Welcome To Book Manager!</h1>
+            </div>
+        </div>
+        <div class="row">
+            <hr>
+            <div class="col-sm">
+                <p>Book manager provides you a way to create own book collection. Add books, delete it or update info
+                about it. Do what you want. Our system provides you additional information about books right from the scratch.
+                This system is pretty simple and intuitive, so you don't have any problems with figuring out, how it is working.
+                Do you want to try? Click on the button below and start for free.</p>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-sm"></div>
+            <div class="col-sm" align="center">
+                <a type="button" th:href="@{/books}" class="btn btn-warning btn-lg my-3">Let's start</a>
+            </div>
+            <div class="col-sm"></div>
+        </div>
+
+    </div>
 </body>
 </html>

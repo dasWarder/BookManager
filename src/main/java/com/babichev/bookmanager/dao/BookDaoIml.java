@@ -16,19 +16,15 @@ public class BookDaoIml implements BookDao {
     private EntityManager entityManager;
 
     @Override
-    @Transactional
     public void addBook(Book book) {
-        entityManager.persist(book);
+        if(book.getId() == 0 && getBookById(book.getId()) == null) {
+            entityManager.persist(book);
+        } else {
+            entityManager.merge(book);
+        }
     }
 
     @Override
-    @Transactional
-    public void updateBook(Book book) {
-        entityManager.merge(book);
-    }
-
-    @Override
-    @Transactional
     public void removeBook(long id) {
         Book bookById = getBookById(id);
 

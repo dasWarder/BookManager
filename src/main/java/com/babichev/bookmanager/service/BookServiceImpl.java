@@ -4,6 +4,7 @@ import com.babichev.bookmanager.dao.BookDao;
 import com.babichev.bookmanager.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,15 +20,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public void addBook(Book book) {
-        if(book.getId() == 0) {
-            bookDao.addBook(book);
-        } else {
-            bookDao.updateBook(book);
-        }
+        bookDao.addBook(book);
     }
 
     @Override
+    @Transactional
     public void removeBook(long id) {
         bookDao.removeBook(id);
     }

@@ -1,6 +1,6 @@
 package com.babichev.bookmanager.service;
 
-import com.babichev.bookmanager.dao.BookDao;
+import com.babichev.bookmanager.repository.BookDao;
 import com.babichev.bookmanager.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

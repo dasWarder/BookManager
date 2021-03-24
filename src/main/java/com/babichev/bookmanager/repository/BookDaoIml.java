@@ -1,8 +1,7 @@
-package com.babichev.bookmanager.dao;
+package com.babichev.bookmanager.repository;
 
 import com.babichev.bookmanager.entity.Book;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

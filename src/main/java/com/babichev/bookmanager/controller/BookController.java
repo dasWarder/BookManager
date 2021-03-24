@@ -1,7 +1,6 @@
 package com.babichev.bookmanager.controller;
 
 
-import com.babichev.bookmanager.dao.BookDao;
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class BookController {

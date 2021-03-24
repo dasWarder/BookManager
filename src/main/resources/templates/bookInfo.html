@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail information</title>
+</head>
+<body>
+    <h1>Detail information</h1>
+    <div th:object="${book}">
+        <p>Name: <span th:text = "${book.getName}"/></p>
+        <p>Author: <span th:text = "${book.getAuthor}"/></p>
+        <p>Year: <span th:text = "${book.getYear}"/></p>
+        <p>Description: SOME INFORMATION ABOUT THE BOOK IN THE FUTURE</p>
+    </div>
+</body>
+</html>

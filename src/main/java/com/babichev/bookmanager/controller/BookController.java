@@ -3,6 +3,7 @@ package com.babichev.bookmanager.controller;
 
 import com.babichev.bookmanager.dao.BookDao;
 import com.babichev.bookmanager.entity.Book;
+import com.babichev.bookmanager.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,16 +15,16 @@ import java.util.Objects;
 @Controller
 public class BookController {
 
-    private BookDao bookDao;
+    private final BookService bookService;
 
     @Autowired
-    public BookController(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @GetMapping(value = "/books")
-    public String listBooks(Model model) {
-        List<Book> all = bookDao.getAll();
+    public String getAll(Model model) {
+        List<Book> all = bookService.getAll();
 
         model.addAttribute("book", new Book());
         model.addAttribute("books", all);
@@ -33,21 +34,33 @@ public class BookController {
 
 
     @PostMapping(value = "/books/add")
-    public String addBook(@ModelAttribute("book") Book book) {
-
-        if(book.getId() == 0) {
-            bookDao.addBook(book);
-        } else {
-            bookDao.updateBook(book);
-        }
+    public String add(@ModelAttribute("book") Book book) {
+        bookService.addBook(book);
 
         return "redirect:/books";
     }
 
-    @GetMapping(value = "/books/remove")
-    public String removeBook(@RequestParam("id") long id) {
-         bookDao.removeBook(id);
-
+    @GetMapping(value = "/books/{id}")
+    public String remove(@PathVariable("id") long id) {
+         bookService.removeBook(id);
          return "redirect:/books";
+    }
+
+    @GetMapping(value = "/books/update/{id}")
+    public String updateForm(@PathVariable("id") int id, Model model) {
+        Book book = bookService.getBookById(id);
+
+        model.addAttribute("book", book);
+
+        return "updateForm";
+    }
+
+    @GetMapping(value = "/books/book/{id}")
+    public String get(@PathVariable("id") int id, Model model) {
+        Book book = bookService.getBookById(id);
+
+        model.addAttribute("book", book);
+
+        return "bookInfo";
     }
 }

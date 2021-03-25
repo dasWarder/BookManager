@@ -4,11 +4,11 @@ import com.babichev.bookmanager.entity.Book;
 import java.util.*;
 
 public interface BookDao {
-    void addBook(Book book);
+    Book addBook(Book book);
 
-    void removeBook(long id);
+    void removeBook(int id);
 
-    Book getBookById(long id);
+    Book getBookById(int id);
 
     List<Book> getAll();
 }

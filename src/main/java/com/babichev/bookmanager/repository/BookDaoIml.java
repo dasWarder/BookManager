@@ -15,16 +15,19 @@ public class BookDaoIml implements BookDao {
     private EntityManager entityManager;
 
     @Override
-    public void addBook(Book book) {
-        if(book.getId() == 0 && getBookById(book.getId()) == null) {
+    public Book addBook(Book book) {
+        if(book.getId() == null) {
             entityManager.persist(book);
-        } else {
-            entityManager.merge(book);
+            return book;
+        } else if (getBookById(book.getId()) == null){
+            return null;
         }
+
+        return entityManager.merge(book);
     }
 
     @Override
-    public void removeBook(long id) {
+    public void removeBook(int id) {
         Book bookById = getBookById(id);
 
         if(bookById != null) {
@@ -33,7 +36,7 @@ public class BookDaoIml implements BookDao {
     }
 
     @Override
-    public Book getBookById(long id) {
+    public Book getBookById(int id) {
         return entityManager.find(Book.class, id);
     }
 

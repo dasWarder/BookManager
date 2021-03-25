@@ -13,7 +13,7 @@ import java.util.List;
 @Controller
 public class BookController {
 
-    private final BookService bookService;
+    private BookService bookService;
 
     @Autowired
     public BookController(BookService bookService) {
@@ -33,13 +33,13 @@ public class BookController {
 
     @PostMapping(value = "/books/add")
     public String add(@ModelAttribute("book") Book book) {
-        bookService.addBook(book);
+        Book created = bookService.addBook(book);
 
         return "redirect:/books";
     }
 
     @GetMapping(value = "/books/{id}")
-    public String remove(@PathVariable("id") long id) {
+    public String remove(@PathVariable("id") int id) {
          bookService.removeBook(id);
          return "redirect:/books";
     }

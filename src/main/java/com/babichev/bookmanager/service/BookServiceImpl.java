@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private final BookDao bookDao;
+    private BookDao bookDao;
 
     @Autowired
     public BookServiceImpl(BookDao bookDao) {
@@ -21,18 +21,18 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void addBook(Book book) {
-        bookDao.addBook(book);
+    public Book addBook(Book book) {
+        return bookDao.addBook(book);
     }
 
     @Override
     @Transactional
-    public void removeBook(long id) {
+    public void removeBook(int id) {
         bookDao.removeBook(id);
     }
 
     @Override
-    public Book getBookById(long id) {
+    public Book getBookById(int id) {
         Book book = bookDao.getBookById(id);
         return book;
     }

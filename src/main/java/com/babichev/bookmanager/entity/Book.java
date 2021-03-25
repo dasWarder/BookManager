@@ -9,7 +9,7 @@ public class Book {
     @Id
     @SequenceGenerator(name = "book_id_seq", sequenceName = "book_id_seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_id_seq")
-    private long id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -28,11 +28,18 @@ public class Book {
         this.year = year;
     }
 
-    public long getId() {
+    public Book(Integer id, String name, String author, Integer year) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.year = year;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

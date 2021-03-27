@@ -2,6 +2,7 @@ package com.babichev.bookmanager.repository;
 
 import com.babichev.bookmanager.entity.Book;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,6 +16,7 @@ public class BookDaoIml implements BookDao {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public Book addBook(Book book) {
         if(book.getId() == null) {
             entityManager.persist(book);
@@ -27,6 +29,7 @@ public class BookDaoIml implements BookDao {
     }
 
     @Override
+    @Transactional
     public void removeBook(int id) {
         Book bookById = getBookById(id);
 

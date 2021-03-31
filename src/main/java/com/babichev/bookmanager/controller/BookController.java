@@ -3,6 +3,8 @@ package com.babichev.bookmanager.controller;
 
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.service.BookService;
+import com.babichev.bookmanager.service.InfoParserService;
+import com.babichev.bookmanager.to.Details;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +16,12 @@ import java.util.List;
 public class BookController {
 
     private BookService bookService;
+    private InfoParserService parserService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, InfoParserService parserService) {
         this.bookService = bookService;
+        this.parserService = parserService;
     }
 
     @GetMapping(value = "/books")
@@ -56,6 +60,11 @@ public class BookController {
     @GetMapping(value = "/books/book/{id}")
     public String get(@PathVariable("id") int id, Model model) {
         Book book = bookService.getBookById(id);
+
+        if(book != null) {
+            Details details = parserService.findInfoOnPage(book);
+            model.addAttribute("information", details);
+        }
 
         model.addAttribute("book", book);
 

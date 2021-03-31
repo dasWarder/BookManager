@@ -16,7 +16,10 @@
                 <p><b>Name: </b><span th:text = "${book.getName}"/></p>
                 <p><b>Author: </b><span th:text = "${book.getAuthor}"/></p>
                 <p><b>Year: </b><span th:text = "${book.getYear}"/></p>
-                <p><b>Description: </b> SOME INFORMATION ABOUT THE BOOK IN THE FUTURE</p>
+            </div>
+            <div th:object="${information}">
+                <p><b>Description: </b><span th:text = "${information.description}"></span></p>
+                <p><img th:src="${information.image}"></p>
             </div>
         </div>
     </div>

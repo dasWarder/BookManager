@@ -1,0 +1,118 @@
+package com.babichev.bookmanager.service;
+
+
+import com.babichev.bookmanager.entity.Book;
+import com.babichev.bookmanager.to.Details;
+import com.babichev.bookmanager.util.StringConverter;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.ListIterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.babichev.bookmanager.util.StringConverter.getSplittedString;
+import static com.babichev.bookmanager.util.StringConverter.parseDescription;
+
+@Service
+public class BookInfoParserService implements InfoParserService {
+    private final String SEARCH_PAGE_URL = "https://openlibrary.org/search?q=%s&mode=everything";
+    private final String INFO_MAIN_URL = "https://openlibrary.org";
+
+    @Override
+    public Details findInfoOnPage(Book book) {
+
+        String readyToParse = buildParsingString(book);
+
+        String formattedUrl = String.format(SEARCH_PAGE_URL, readyToParse);
+
+        Details details = null;
+
+        Document document;
+
+        try {
+            document = Jsoup.connect(formattedUrl).get();
+
+            Element contentBody = document.getElementById("searchResults");
+
+            Elements searchResultItem = contentBody.getElementsByClass("searchResultItem");
+            Element firstBookFromSearch = searchResultItem.first();
+
+            String linkToDetailPage = firstBookFromSearch.getElementsByClass("booktitle")
+                    .first()
+                    .select("a")
+                    .first()
+                    .attr("href");
+
+            //CREATE DETAIL INFO LINK
+            String linkForDetailInfo = INFO_MAIN_URL + linkToDetailPage;
+
+            details = getDetails(linkForDetailInfo);
+
+        } catch (IOException e) {
+            e.getStackTrace();
+        }
+
+        return details;
+    }
+
+    private Details getDetails(String link) {
+        Details details = new Details();
+        Document document;
+        try {
+            document = Jsoup.connect(link).get();
+
+            Elements bookDescriptionClass = document.getElementsByClass("workDetails");
+
+            //GET DESCRIPTION OF THE BOOK
+            String description = bookDescriptionClass
+                    .first()
+                    .getElementsByClass("editionAbout")
+                    .first()
+                    .getElementsByClass("book-description")
+                    .first()
+                    .text();
+            description = parseDescription(
+                    parseDescription(description,  "Read less"),
+                    "Read more");
+
+            //GET IMAGE LINK
+            String imgLink = bookDescriptionClass
+                    .first()
+                    .getElementsByClass("editionCover")
+                    .first()
+                    .select("a")
+                    .first()
+                    .attr("href");
+
+            details.setDescription(description);
+            details.setImage(imgLink);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return details;
+    }
+
+    //BUILD A STRING TO ADD AS PARAM FOR FORMATTER FOR INFO_URL STRING
+    private String buildParsingString(Book book) {
+        final String resultString;
+
+        String name = book.getName();
+        String author = book.getAuthor();
+
+        name = name == null || name.equals("")? "" : getSplittedString(name);
+        author = author == null || author.equals("")? "" : getSplittedString(author);
+
+        resultString = name + author;
+
+        return resultString;
+    }
+
+
+
+}

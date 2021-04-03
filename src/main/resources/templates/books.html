@@ -15,7 +15,8 @@
         <div class="row">
             <div class="col">
                 <form  align="center" class="form-inline my-4" action="#" th:action="@{/books/add}" method="post" th:object="${book}">
-                    <label>Name: <input type="text" th:field="*{name}"/> </label>
+                    <input type="hidden" th:field="*{id}"/>
+                    <label>Title: <input type="text" th:field="*{name}"/> </label>
                     <label>Author: <input type="text" th:field="*{author}"/> </label>
                     <label>Year: <input type="text" th:field="*{year}"/> </label>
                     <button type="submit" class="btn btn-warning btn-sm mx-2"> Add </button>

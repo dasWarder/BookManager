@@ -32,7 +32,7 @@ public class DetailsDaoImplTest {
 
     @Test
     public void getById() {
-        Details details = detailsDao.get(5, 1);
+        Details details = detailsDao.get(TestData.FIRST_DETAILS.getId(), 1);
         Details firstDetails = TestData.FIRST_DETAILS;
         firstDetails.setBook(details.getBook());
 

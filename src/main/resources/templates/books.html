@@ -38,7 +38,7 @@
                         <td th:text="${book.getAuthor()}"/>
                         <td th:text="${book.getYear()}"/>
                         <td>
-                            <a type="submit" class="btn btn-danger btn-sm mx-2" th:href="@{/books/{id} (id = ${book.id})}">Delete</a>
+                            <a type="submit" class="btn btn-danger btn-sm mx-2" onclick="if (!(confirm('Are you sure want to delete this book?'))) return false" th:href="@{/books/{id} (id = ${book.id})}">Delete</a>
                             <a type="submit" class="btn btn-warning btn-sm mx-2" th:href="@{/books/update/{id} (id = ${book.id})}">Update</a>
                             <a type="submit" class="btn btn-info btn-sm mx-2" th:href="@{/books/book/{id} (id = ${book.id})}">Details</a>
                         </td>

@@ -1,6 +1,7 @@
 package com.babichev.bookmanager.data;
 
 import com.babichev.bookmanager.entity.Book;
+import com.babichev.bookmanager.entity.Details;
 
 import java.util.*;
 
@@ -16,6 +17,7 @@ public class TestData {
     public static final Book THIRD_BOOK = new Book(3, "The witcher", "Sapkowski", 1986);
     public static final Book FOURTH_BOOK = new Book(4, "War and Peace", "Tolstoy", 1867);
     public static final Book WRONG_ID_BOOK = new Book(10000000, "WRONG", "WRONG", 2000);
+    public static final Details FIRST_DETAILS = new Details(5, "THE HOBBIT DESCRIPTION", "THE HOBBIT BOOK COVER");
 
     public static List<Book> books = new ArrayList<>();
 

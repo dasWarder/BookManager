@@ -1,11 +1,11 @@
 package com.babichev.bookmanager;
 
-import com.babichev.bookmanager.entity.Book;
-import com.babichev.bookmanager.service.InfoParserService;
+import com.babichev.bookmanager.entity.Details;
+import com.babichev.bookmanager.repository.DetailsDao;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.dao.DeadlockLoserDataAccessException;
 
 @SpringBootApplication
 public class BookmanagerApplication {
@@ -13,13 +13,11 @@ public class BookmanagerApplication {
     public static void main(String[] args) {
 //        AnnotationConfigApplicationContext configApplicationContext = new AnnotationConfigApplicationContext(BookmanagerApplication.class);
 //
-//        InfoParserService infoParserService = (InfoParserService) configApplicationContext.getBean("bookInfoParserService");
-//
-//        infoParserService.findInfoOnPage(new Book("The Hobbit", "Tolkien", null));
+//        DetailsDao detailsDaoImpl = (DetailsDao) configApplicationContext.getBean("detailsDaoImpl");
+//        Details add = detailsDaoImpl.add(new Details("TEST", "TEST"), 1);
+//        System.out.println(add);
 
         SpringApplication.run(BookmanagerApplication.class, args);
-
-
     }
 
 }

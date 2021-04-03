@@ -1,17 +1,15 @@
 package com.babichev.bookmanager.entity;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "book")
-public class Book {
-    
-    @Id
-    @SequenceGenerator(name = "book_id_seq", sequenceName = "book_id_seq", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_id_seq")
-    private Integer id;
+public class Book extends AbstractIdEntity{
 
+    @NotNull
     @Column(name = "name")
     private String name;
 
@@ -20,6 +18,10 @@ public class Book {
 
     @Column(name = "year")
     private Integer year;
+
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY)
+    private Details details;
 
     public Book() {};
 
@@ -30,19 +32,12 @@ public class Book {
     }
 
     public Book(Integer id, String name, String author, Integer year) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.author = author;
         this.year = year;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -68,19 +63,13 @@ public class Book {
         this.year = year;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return id.equals(book.id) &&
-                Objects.equals(name, book.name) &&
-                Objects.equals(author, book.author) &&
-                Objects.equals(year, book.year);
+    public Details getDetails() {
+        return details;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, author, year);
+    public void setDetails(Details details) {
+        this.details = details;
     }
+
+
 }

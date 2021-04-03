@@ -4,7 +4,7 @@ package com.babichev.bookmanager.controller;
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.service.BookService;
 import com.babichev.bookmanager.service.InfoParserService;
-import com.babichev.bookmanager.to.Details;
+import com.babichev.bookmanager.entity.Details;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,11 +36,12 @@ public class BookController {
 
 
     @PostMapping(value = "/books/add")
-    public String add(@ModelAttribute("book") Book book) {
+    public String add(@ModelAttribute("book") Book book, Model model) {
         Book created = bookService.addBook(book);
 
         return "redirect:/books";
     }
+
 
     @GetMapping(value = "/books/{id}")
     public String remove(@PathVariable("id") int id) {
@@ -62,8 +63,8 @@ public class BookController {
         Book book = bookService.getBookById(id);
 
         if(book != null) {
-            Details details = parserService.findInfoOnPage(book);
-            model.addAttribute("information", details);
+                Details information = parserService.findInfoOnPage(book);
+                model.addAttribute("information", information);
         }
 
         model.addAttribute("book", book);

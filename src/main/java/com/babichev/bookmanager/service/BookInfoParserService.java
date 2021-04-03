@@ -2,18 +2,15 @@ package com.babichev.bookmanager.service;
 
 
 import com.babichev.bookmanager.entity.Book;
-import com.babichev.bookmanager.to.Details;
-import com.babichev.bookmanager.util.StringConverter;
+import com.babichev.bookmanager.entity.Details;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ListIterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.babichev.bookmanager.util.StringConverter.getSplittedString;
 import static com.babichev.bookmanager.util.StringConverter.parseDescription;
@@ -23,6 +20,14 @@ public class BookInfoParserService implements InfoParserService {
     private final String SEARCH_PAGE_URL = "https://openlibrary.org/search?q=%s&mode=everything";
     private final String INFO_MAIN_URL = "https://openlibrary.org";
 
+    private BookService bookService;
+
+    @Autowired
+    public BookInfoParserService(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+
     @Override
     public Details findInfoOnPage(Book book) {
 
@@ -30,7 +35,7 @@ public class BookInfoParserService implements InfoParserService {
 
         String formattedUrl = String.format(SEARCH_PAGE_URL, readyToParse);
 
-        Details details = null;
+        Details details = new Details();
 
         Document document;
 
@@ -55,9 +60,12 @@ public class BookInfoParserService implements InfoParserService {
 
         } catch (IOException e) {
             e.getStackTrace();
+        } catch (NullPointerException e) {
+            details.setDescription("This edition doesn't have a description yet. Can you add one?");
+            return details;
+        } finally {
+            return details;
         }
-
-        return details;
     }
 
     private Details getDetails(String link) {
@@ -104,11 +112,14 @@ public class BookInfoParserService implements InfoParserService {
 
         String name = book.getName();
         String author = book.getAuthor();
+//        Integer year = book.getYear();
+//        String yearStr = null;
 
         name = name == null || name.equals("")? "" : getSplittedString(name);
         author = author == null || author.equals("")? "" : getSplittedString(author);
+//        yearStr = year != null? String.valueOf(year) : "";
 
-        resultString = name + author;
+        resultString = name + author;// + yearStr;
 
         return resultString;
     }

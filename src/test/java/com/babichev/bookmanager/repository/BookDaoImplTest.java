@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Sql(scripts = {"/db/clearDb.sql", "/db/populateDb.sql"})
-public class BookDaoImlTest {
+public class BookDaoImplTest {
 
     @Autowired
     private BookDao bookDao;

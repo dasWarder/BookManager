@@ -1,6 +1,7 @@
 package com.babichev.bookmanager.repository;
 
 import com.babichev.bookmanager.data.TestData;
+import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Details;
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,6 +38,21 @@ public class DetailsDaoImplTest {
         firstDetails.setBook(details.getBook());
 
         assertThat(firstDetails).usingRecursiveComparison().isEqualTo(details);
+    }
+
+    @Test
+    public void remove() {
+        Details details = TestData.FIRST_DETAILS;
+        Details add = detailsDao.add(details, 3);
+        Details getted = detailsDao.get(TestData.FIRST_DETAILS.getId(), TestData.THIRD_BOOK.getId());
+
+        assertThat(getted)
+                .usingRecursiveComparison()
+                .isEqualTo(add);
+
+        detailsDao.remove(details.getId(), TestData.THIRD_BOOK.getId());
+
+        Assert.assertEquals(null, detailsDao.get(details.getId(), TestData.THIRD_BOOK.getId()));
     }
 
 }

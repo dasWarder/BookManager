@@ -14,7 +14,7 @@ public class Details extends AbstractIdEntity {
     @Column(name = "image")
     private String image;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 

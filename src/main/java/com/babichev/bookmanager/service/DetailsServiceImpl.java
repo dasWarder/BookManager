@@ -28,10 +28,15 @@ public class DetailsServiceImpl implements DetailsService {
     }
 
     @Override
-    @Transactional
     public Details get(int details_id, int book_id) {
         Details details = detailsDao.get(details_id, book_id);
 
         return details != null? details : null;
+    }
+
+    @Override
+    @Transactional
+    public void remove(int details_id, int book_id) {
+            detailsDao.remove(details_id, book_id);
     }
 }

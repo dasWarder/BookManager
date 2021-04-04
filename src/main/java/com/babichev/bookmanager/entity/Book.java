@@ -19,7 +19,7 @@ public class Book extends AbstractIdEntity{
     @Column(name = "year")
     private Integer year;
 
-    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Details details;
 
     public Book() {};

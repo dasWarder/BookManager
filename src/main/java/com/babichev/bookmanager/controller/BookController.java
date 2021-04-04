@@ -6,12 +6,12 @@ import com.babichev.bookmanager.service.BookService;
 import com.babichev.bookmanager.service.DetailsService;
 import com.babichev.bookmanager.service.InfoParserService;
 import com.babichev.bookmanager.entity.Details;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BookController {
@@ -38,7 +38,8 @@ public class BookController {
 
 
     @PostMapping(value = "/books/add")
-    public String add(@ModelAttribute("book") Book book, Model model) {
+    public String add(@ModelAttribute("book") Book book) {
+
         Book created = bookService.addBook(book);
 
         return "redirect:/books";
@@ -55,6 +56,11 @@ public class BookController {
     public String updateForm(@PathVariable("id") int id, Model model) {
         Book book = bookService.getBookById(id);
 
+        if(book.getDetails() != null) {
+            detailsService.remove(book.getDetails().getId(), book.getId());
+            book = bookService.addBook(book);
+        }
+
         model.addAttribute("book", book);
 
         return "updateForm";
@@ -63,7 +69,8 @@ public class BookController {
     @GetMapping(value = "/books/book/{id}")
     public String get(@PathVariable("id") int id, Model model) {
         Book book = bookService.getBookById(id);
-        Details information = null;
+        Details information;
+
         if(book != null) {
                 if(book.getDetails() == null) {
                     information = parserService.findInfoOnPage(book);

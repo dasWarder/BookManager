@@ -32,10 +32,16 @@ public class DetailsDaoImpl implements DetailsDao {
         return em.merge(details);
     }
 
-    @Transactional
     @Override
     public Details get(int details_id, int book_id) {
         Details details = em.find(Details.class, details_id);
         return details != null && details.getBook().getId() == book_id? details : null;
+    }
+
+    @Override
+    @Transactional
+    public void remove(int details_id, int book_id) {
+        Details details = get(details_id, book_id);
+        em.remove(details);
     }
 }

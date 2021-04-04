@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.babichev.bookmanager.data.TestData.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
@@ -24,8 +25,8 @@ public class DetailsDaoImplTest {
 
     @Test
     public void addNew() {
-        Details details = new Details("TEST", "TEST");
-        Details add = detailsDao.add(details, 1);
+        Details details = createNewDetails();
+        Details add = detailsDao.add(details, FIRST_BOOK.getId());
         details.setId(add.getId());
 
         Assert.assertEquals(details, add);
@@ -33,8 +34,8 @@ public class DetailsDaoImplTest {
 
     @Test
     public void getById() {
-        Details details = detailsDao.get(TestData.FIRST_DETAILS.getId(), 1);
-        Details firstDetails = TestData.FIRST_DETAILS;
+        Details details = detailsDao.get(FIRST_DETAILS.getId(), FIRST_BOOK.getId());
+        Details firstDetails = FIRST_DETAILS;
         firstDetails.setBook(details.getBook());
 
         assertThat(firstDetails).usingRecursiveComparison().isEqualTo(details);
@@ -42,17 +43,17 @@ public class DetailsDaoImplTest {
 
     @Test
     public void remove() {
-        Details details = TestData.FIRST_DETAILS;
-        Details add = detailsDao.add(details, 3);
-        Details getted = detailsDao.get(TestData.FIRST_DETAILS.getId(), TestData.THIRD_BOOK.getId());
+        Details details = FIRST_DETAILS;
+        Details add = detailsDao.add(FIRST_DETAILS, FIRST_BOOK.getId());
+        Details getted = detailsDao.get(FIRST_DETAILS.getId(), FIRST_BOOK.getId());
 
-        assertThat(getted)
+        assertThat(add)
                 .usingRecursiveComparison()
-                .isEqualTo(add);
+                .isEqualTo(getted);
 
-        detailsDao.remove(details.getId(), TestData.THIRD_BOOK.getId());
+        detailsDao.remove(details.getId(), FIRST_BOOK.getId());
 
-        Assert.assertEquals(null, detailsDao.get(details.getId(), TestData.THIRD_BOOK.getId()));
+        Assert.assertEquals(null, detailsDao.get(details.getId(), FIRST_BOOK.getId()));
     }
 
 }

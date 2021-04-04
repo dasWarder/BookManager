@@ -32,7 +32,7 @@ public class BookDaoImplTest {
     @Test
     public void getBookById() {
         Book bookById = bookDao.getBookById(1);
-        assertThat(bookById).usingRecursiveComparison().isEqualTo(TestData.FIRST_BOOK);
+        assertThat(bookById).usingRecursiveComparison().ignoringFields("details").isEqualTo(TestData.FIRST_BOOK);
     }
 
     @Test
@@ -74,6 +74,7 @@ public class BookDaoImplTest {
 
         assertThat(getted)
                 .usingRecursiveComparison()
+                .ignoringFields("details")
                 .isEqualTo(TestData.FIRST_BOOK);
 
         bookDao.removeBook(getted.getId());
@@ -88,6 +89,7 @@ public class BookDaoImplTest {
 
         assertThat(TestData.books)
                 .usingRecursiveComparison()
+                .ignoringFields("details")
                 .isEqualTo(all);
     }
 

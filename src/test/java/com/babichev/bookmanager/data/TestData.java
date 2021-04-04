@@ -38,4 +38,8 @@ public class TestData {
 
         return book;
     }
+
+    public static Details createNewDetails() {
+        return new Details("TEST", "TEST");
+    }
 }

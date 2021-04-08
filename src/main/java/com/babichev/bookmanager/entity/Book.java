@@ -19,6 +19,10 @@ public class Book extends AbstractIdEntity{
     @Column(name = "year")
     private Integer year;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
     @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Details details;
 
@@ -70,5 +74,11 @@ public class Book extends AbstractIdEntity{
         this.details = details;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

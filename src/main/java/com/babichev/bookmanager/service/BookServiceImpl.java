@@ -1,6 +1,6 @@
 package com.babichev.bookmanager.service;
 
-import com.babichev.bookmanager.repository.BookDao;
+import com.babichev.bookmanager.repository.BookRepository;
 import com.babichev.bookmanager.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,34 +12,34 @@ import java.util.List;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private BookDao bookDao;
+    private BookRepository bookRepository;
 
     @Autowired
-    public BookServiceImpl(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public BookServiceImpl(BookRepository bookDao) {
+        this.bookRepository = bookDao;
     }
 
     @Override
     @Transactional
     public Book addBook(Book book) {
-        return bookDao.addBook(book);
+        return bookRepository.add(book);
     }
 
     @Override
     @Transactional
     public void removeBook(int id) {
-        bookDao.removeBook(id);
+        bookRepository.remove(id);
     }
 
     @Override
     public Book getBookById(int id) {
-        Book book = bookDao.getBookById(id);
+        Book book = bookRepository.get(id);
         return book;
     }
 
     @Override
     public List<Book> getAll() {
-        List<Book> all = bookDao.getAll();
+        List<Book> all = bookRepository.getAll();
         return all;
     }
 }

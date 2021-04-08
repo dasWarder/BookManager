@@ -15,14 +15,14 @@ import java.io.IOException;
 import static com.babichev.bookmanager.util.StringConverter.*;
 
 @Service
-public class BookInfoParserService implements InfoParserService {
+public class BookDetailsParserService implements DetailsParserService {
     private final String SEARCH_PAGE_URL = "https://openlibrary.org/search?q=%s&mode=everything";
     private final String INFO_MAIN_URL = "https://openlibrary.org";
 
     private BookService bookService;
 
     @Autowired
-    public BookInfoParserService(BookService bookService) {
+    public BookDetailsParserService(BookService bookService) {
         this.bookService = bookService;
     }
 

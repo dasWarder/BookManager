@@ -4,23 +4,22 @@ package com.babichev.bookmanager.controller;
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.service.BookService;
 import com.babichev.bookmanager.service.DetailsService;
-import com.babichev.bookmanager.service.InfoParserService;
+import com.babichev.bookmanager.service.DetailsParserService;
 import com.babichev.bookmanager.entity.Details;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class BookController {
 
     private BookService bookService;
-    private InfoParserService parserService;
+    private DetailsParserService parserService;
     private DetailsService detailsService;
 
-    public BookController(BookService bookService, InfoParserService parserService, DetailsService detailsService) {
+    public BookController(BookService bookService, DetailsParserService parserService, DetailsService detailsService) {
         this.bookService = bookService;
         this.parserService = parserService;
         this.detailsService = detailsService;

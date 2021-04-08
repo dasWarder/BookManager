@@ -1,8 +1,6 @@
 package com.babichev.bookmanager.repository;
 
 import com.babichev.bookmanager.entity.Book;
-import com.babichev.bookmanager.entity.Details;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,44 +10,44 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Repository
-public class BookDaoImpl implements BookDao {
+public class BookRepositoryJpa implements BookRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
 
     @Override
     @Transactional
-    public Book addBook(Book book) {
+    public Book add(Book book) {
         if(book.getId() == null) {
-            entityManager.persist(book);
+            em.persist(book);
             return book;
-        } else if (getBookById(book.getId()) == null){
+        } else if (get(book.getId()) == null){
             return null;
         }
 
-        return entityManager.merge(book);
+        return em.merge(book);
     }
 
     @Override
     @Transactional
-    public void removeBook(int id) {
-        Book bookById = getBookById(id);
+    public void remove(int id) {
+        Book bookById = get(id);
 
         if(bookById != null) {
-            entityManager.remove(bookById);
+            em.remove(bookById);
         }
     }
 
     @Override
     @Transactional
-    public Book getBookById(int id) {
-        return entityManager.find(Book.class, id);
+    public Book get(int id) {
+        return em.find(Book.class, id);
     }
 
     @Override
     public List<Book> getAll() {
-        Query select_b_from_book_b = entityManager.createQuery(
+        Query select_b_from_book_b = em.createQuery(
                 "SELECT b FROM Book b"
         );
 

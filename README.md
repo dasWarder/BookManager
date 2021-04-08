@@ -13,3 +13,5 @@ _Version 0.2.3:_
 0.1.3: Add the Book manager and all CRUD book's operations
 
 0.2.3: Add all thymeleaf main pages and with Bootstrap view
+
+0.2.4: Add Details to save a description, and an image link in DB

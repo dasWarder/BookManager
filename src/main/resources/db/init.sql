@@ -12,14 +12,12 @@ CREATE TABLE customer (
 );
 
 
-
 CREATE TABLE book (
     id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('book_id_seq'),
     name VARCHAR(250) NOT NULL,
     author VARCHAR(150),
     year INTEGER,
     customer_id INTEGER,
-
     FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE
 );
 

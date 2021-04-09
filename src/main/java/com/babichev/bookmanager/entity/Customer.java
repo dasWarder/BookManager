@@ -14,7 +14,7 @@ public class Customer extends AbstractIdEntity {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "customer", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH}, orphanRemoval = true, fetch = FetchType.LAZY)
     private Collection<Book> books;
 
     public Customer() {}

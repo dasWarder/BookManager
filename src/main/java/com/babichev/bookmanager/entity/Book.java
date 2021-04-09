@@ -19,7 +19,7 @@ public class Book extends AbstractIdEntity{
     @Column(name = "year")
     private Integer year;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

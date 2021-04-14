@@ -1,6 +1,7 @@
 package com.babichev.bookmanager.repository;
 
 import com.babichev.bookmanager.entity.Book;
+import com.babichev.bookmanager.entity.Customer;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ public class BookRepositoryJpa implements BookRepository {
     @Override
     @Transactional
     public Book add(Book book) {
+
         if(book.getId() == null) {
             em.persist(book);
             return book;

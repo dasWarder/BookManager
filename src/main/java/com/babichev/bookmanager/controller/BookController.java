@@ -57,7 +57,6 @@ public class BookController {
 
         if(book.getDetails() != null) {
             detailsService.remove(book.getDetails().getId(), book.getId());
-//            book = bookService.addBook(book);
         }
 
         model.addAttribute("book", book);

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>Log In</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h1 class="display-3" align="center">Log In</h1>
+        </div>
+        <div class="row">
+            <div class="row">
+                <p class="display-7" align="center">Please, select user for authentication</p>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                    <form class="form-inline my-4 mx-4" action="#" th:action="@{/customer/login}">
+                        <select class="form-control-lg mx-4" th:name="customer">
+                            <option th:value="1">Customer_1</option>
+                            <option th:value="2">Customer_2</option>
+                        </select>
+                        <br>
+                        <button class="btn btn-warning btn-lg my-3" type="submit">Log In</button>
+                    </form>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

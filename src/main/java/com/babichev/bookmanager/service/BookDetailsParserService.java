@@ -94,8 +94,11 @@ public class BookDetailsParserService implements DetailsParserService {
             details.setDescription(description);
             details.setImage(imgLink);
 
+        } catch (IllegalArgumentException e) {
+            details.setDescription("This edition doesn't have a description yet. Can you add one?");
+            return details;
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getStackTrace();
         }
 
         return details;

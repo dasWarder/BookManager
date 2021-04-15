@@ -2,7 +2,7 @@ package com.babichev.bookmanager.util;
 
 public class SecurityUtil {
 
-    private static Integer id = 1;
+    private static Integer id = 2;
 
     public SecurityUtil() {
     }

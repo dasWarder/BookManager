@@ -19,12 +19,12 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     @Transactional
-    public Book add(Book book) {
-
+    public Book add(Book book, int customerId) {
+        book.setCustomer(em.getReference(Customer.class, customerId));
         if(book.getId() == null) {
             em.persist(book);
             return book;
-        } else if (get(book.getId()) == null){
+        } else if (get(book.getId(), customerId) == null){
             return null;
         }
 
@@ -33,25 +33,27 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     @Transactional
-    public void remove(int id) {
-        Book bookById = get(id);
+    public void remove(int id, int customerId) {
+        Query query = em.createQuery("DELETE FROM Book b WHERE b.id=:id AND b.customer.id=:customerId")
+                .setParameter("id", id)
+                .setParameter("customerId", customerId);
 
-        if(bookById != null) {
-            em.remove(bookById);
-        }
+        query.executeUpdate();
     }
 
     @Override
     @Transactional
-    public Book get(int id) {
-        return em.find(Book.class, id);
+    public Book get(int id, int customerId) {
+        Book book = em.find(Book.class, id);
+
+        return book!= null && book.getCustomer().getId() == customerId? book : null;
     }
 
     @Override
-    public List<Book> getAll() {
+    public List<Book> getAll(int customerId) {
         Query select_b_from_book_b = em.createQuery(
-                "SELECT b FROM Book b"
-        );
+                "SELECT b FROM Book b WHERE b.customer.id=:customerId")
+                .setParameter("customerId", customerId);
 
         return select_b_from_book_b
                 .getResultList();

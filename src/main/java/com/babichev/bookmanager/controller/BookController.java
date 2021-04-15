@@ -6,6 +6,7 @@ import com.babichev.bookmanager.service.BookService;
 import com.babichev.bookmanager.service.DetailsService;
 import com.babichev.bookmanager.service.DetailsParserService;
 import com.babichev.bookmanager.entity.Details;
+import com.babichev.bookmanager.util.SecurityUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,8 @@ public class BookController {
 
     @GetMapping(value = "/books")
     public String getAll(Model model) {
-        List<Book> all = bookService.getAll();
+        int customerId = SecurityUtil.getAuthUserId();
+        List<Book> all = bookService.getAll(customerId);
 
         model.addAttribute("book", new Book());
         model.addAttribute("books", all);
@@ -38,8 +40,9 @@ public class BookController {
 
     @PostMapping(value = "/books/add")
     public String add(@ModelAttribute("book") Book book) {
+        int customerId = SecurityUtil.getAuthUserId();
 
-        Book created = bookService.addBook(book);
+        Book created = bookService.addBook(book, customerId);
 
         return "redirect:/books";
     }
@@ -47,13 +50,17 @@ public class BookController {
 
     @GetMapping(value = "/books/{id}")
     public String remove(@PathVariable("id") int id) {
-         bookService.removeBook(id);
+         int customerId = SecurityUtil.getAuthUserId();
+
+         bookService.removeBook(id, customerId);
          return "redirect:/books";
     }
 
     @GetMapping(value = "/books/update/{id}")
     public String updateForm(@PathVariable("id") int id, Model model) {
-        Book book = bookService.getBookById(id);
+        int customerId = SecurityUtil.getAuthUserId();
+
+        Book book = bookService.getBookById(id, customerId);
 
         if(book.getDetails() != null) {
             detailsService.remove(book.getDetails().getId(), book.getId());
@@ -66,7 +73,8 @@ public class BookController {
 
     @GetMapping(value = "/books/book/{id}")
     public String get(@PathVariable("id") int id, Model model) {
-        Book book = bookService.getBookById(id);
+        int customerId = SecurityUtil.getAuthUserId();
+        Book book = bookService.getBookById(id, customerId);
         Details information;
 
         if(book != null) {

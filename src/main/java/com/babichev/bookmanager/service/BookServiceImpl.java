@@ -21,25 +21,27 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book addBook(Book book) {
-        return bookRepository.add(book);
+    public Book addBook(Book book, int customerId) {
+
+        return bookRepository.add(book, customerId);
     }
 
     @Override
     @Transactional
-    public void removeBook(int id) {
-        bookRepository.remove(id);
+    public void removeBook(int id, int customerId) {
+
+        bookRepository.remove(id, customerId);
     }
 
     @Override
-    public Book getBookById(int id) {
-        Book book = bookRepository.get(id);
+    public Book getBookById(int id, int customerId) {
+        Book book = bookRepository.get(id, customerId);
         return book;
     }
 
     @Override
-    public List<Book> getAll() {
-        List<Book> all = bookRepository.getAll();
+    public List<Book> getAll(int customerId) {
+        List<Book> all = bookRepository.getAll(customerId);
         return all;
     }
 }

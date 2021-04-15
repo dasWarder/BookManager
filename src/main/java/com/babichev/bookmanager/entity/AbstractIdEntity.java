@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @MappedSuperclass
+@Access(value = AccessType.FIELD)
 public class AbstractIdEntity {
 
     @Id

@@ -2,6 +2,8 @@ package com.babichev.bookmanager.repository;
 
 import com.babichev.bookmanager.data.TestData;
 import com.babichev.bookmanager.entity.Book;
+import com.babichev.bookmanager.entity.Customer;
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,9 +26,13 @@ public class BookRepositoryJpaTest {
     private BookRepository bookRepository;
 
 
+
     @Test
     public void getById() {
-        Book bookById = bookRepository.get(TestData.FIRST_BOOK.getId());
+        int customerId = TestData.FIRST_CUSTOMER.getId();
+
+        Book bookById = bookRepository.get(TestData.FIRST_BOOK.getId(), customerId);
+
         assertThat(bookById).usingRecursiveComparison()
                 .ignoringFields("details", "customer")
                 .isEqualTo(TestData.FIRST_BOOK);
@@ -34,19 +40,23 @@ public class BookRepositoryJpaTest {
 
     @Test
     public void getByWrongId() {
-        Book bookById = bookRepository.get(TestData.WRONG_ID_BOOK.getId());
-        System.out.println(bookRepository.get(TestData.FIRST_BOOK.getId()));
+        int customerId = TestData.FIRST_CUSTOMER.getId();
+
+        Book bookById = bookRepository.get(TestData.WRONG_ID_BOOK.getId(), customerId);
+
         Assert.assertEquals(null, bookById);
     }
 
     @Test
     public void add() {
-        Book saved = bookRepository.add(TestData.createBook());
+        int customerId = TestData.FIRST_CUSTOMER.getId();
+
+        Book saved = bookRepository.add(TestData.createBook(), customerId);
         int id = saved.getId();
         Book mockBookWithId = TestData.createBook();
         mockBookWithId.setId(id);
 
-        assertThat(bookRepository.get(id))
+        assertThat(bookRepository.get(id, customerId))
                 .usingRecursiveComparison()
                 .ignoringFields("details", "customer")
                 .isEqualTo(mockBookWithId);
@@ -54,36 +64,36 @@ public class BookRepositoryJpaTest {
 
     @Test
     public void update() {
-        Book added = bookRepository.get(TestData.FIRST_BOOK.getId());
+        int customerId = TestData.FIRST_CUSTOMER.getId();
+
+        Book added = bookRepository.get(TestData.FIRST_BOOK.getId(), customerId);
         int id = added.getId();
         Book forUpdate = TestData.updatedBook(added);
-        forUpdate = bookRepository.add(forUpdate);
+        forUpdate = bookRepository.add(forUpdate, customerId);
 
         assertThat(forUpdate)
                 .usingRecursiveComparison()
                 .ignoringFields("details", "customer")
-                .isEqualTo(bookRepository.get(id));
+                .isEqualTo(bookRepository.get(id, customerId));
     }
 
 
     @Test
     public void remove() {
-        Book getted = bookRepository.get(TestData.FIRST_BOOK.getId());
+        int bookId = TestData.FOURTH_BOOK.getId();
+        int customerId = TestData.FIRST_CUSTOMER.getId();
 
-        assertThat(getted)
-                .usingRecursiveComparison()
-                .ignoringFields("details", "customer")
-                .isEqualTo(TestData.FIRST_BOOK);
+        bookRepository.remove(bookId, customerId);
 
-        bookRepository.remove(getted.getId());
-
-        Assert.assertEquals(null, bookRepository.get(getted.getId()));
+        Assert.assertEquals(null, bookRepository.get(bookId, customerId));
     }
 
 
     @Test
     public void getAll() {
-        List<Book> all = bookRepository.getAll();
+        int customerId = TestData.FIRST_CUSTOMER.getId();
+
+        List<Book> all = bookRepository.getAll(customerId);
 
         assertThat(TestData.books)
                 .usingRecursiveComparison()

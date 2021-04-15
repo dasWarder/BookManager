@@ -3,11 +3,13 @@ package com.babichev.bookmanager.entity;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
-import java.util.Objects;
+
+
 
 @Entity
 @Table(name = "book")
 public class Book extends AbstractIdEntity{
+
 
     @NotNull
     @Column(name = "name")
@@ -23,7 +25,7 @@ public class Book extends AbstractIdEntity{
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(mappedBy = "book", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.LAZY, orphanRemoval = true)
     private Details details;
 
     public Book() {};

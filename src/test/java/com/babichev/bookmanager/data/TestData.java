@@ -11,12 +11,15 @@ import java.util.*;
 //('The witcher', 'Sapkowski', 1986),
 //('War and Peace', 'Tolstoy', 1867);
 
-//(1, 'marrySmith3', '12345'),
-//(2, 'warder', '12345');
+//(20, 'marrySmith3', '12345'),
+//(21, 'warder', '12345');
+
+//INSERT INTO BOOK(id, name, author, year, customer_id) VALUES (3,'The Hobbit', 'J.R.R.Tolkien', 1937, 20);
 
 public class TestData {
     public static final Customer FIRST_CUSTOMER = new Customer(20, "marrySmith3", "12345");
     public static final Customer SECOND_CUSTOMER = new Customer(21, "warder", "12345");
+
     public static final Book FIRST_BOOK = new Book(3, "The Hobbit", "J.R.R.Tolkien", 1937);
     public static final Book SECOND_BOOK = new Book(4, "Harry Potter", "Rowling", 1994);
     public static final Book THIRD_BOOK = new Book(5, "The witcher", "Sapkowski", 1986);
@@ -30,7 +33,6 @@ public class TestData {
         books.add(FIRST_BOOK);
         books.add(SECOND_BOOK);
         books.add(THIRD_BOOK);
-        books.add(FOURTH_BOOK);
     }
 
     public static Book createBook() {

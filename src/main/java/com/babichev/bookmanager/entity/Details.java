@@ -1,9 +1,15 @@
 package com.babichev.bookmanager.entity;
 
 
-import javax.persistence.*;
-import java.util.Objects;
+import lombok.Data;
+import lombok.ToString;
 
+import javax.persistence.*;
+
+
+
+@Data
+@ToString
 @Entity
 @Table(name = "detail")
 public class Details extends AbstractIdEntity {
@@ -33,36 +39,4 @@ public class Details extends AbstractIdEntity {
         this.image = image;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    @Override
-    public String toString() {
-        return "Details{" +
-                "description='" + description + '\'' +
-                ", image='" + image + '\'' +
-                ", book=" + book +
-                '}';
-    }
 }

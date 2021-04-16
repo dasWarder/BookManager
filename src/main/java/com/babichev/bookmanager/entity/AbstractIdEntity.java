@@ -1,8 +1,12 @@
 package com.babichev.bookmanager.entity;
 
-import javax.persistence.*;
-import java.util.Objects;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
+
+@Data
+@EqualsAndHashCode
 @MappedSuperclass
 @Access(value = AccessType.FIELD)
 public class AbstractIdEntity {
@@ -18,24 +22,4 @@ public class AbstractIdEntity {
 
     public AbstractIdEntity() {}
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractIdEntity that = (AbstractIdEntity) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

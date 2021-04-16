@@ -1,15 +1,18 @@
 package com.babichev.bookmanager.entity;
 
 import com.sun.istack.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 
-
+@Data
+@ToString
 @Entity
 @Table(name = "book")
 public class Book extends AbstractIdEntity{
-
 
     @NotNull
     @Column(name = "name")
@@ -41,46 +44,5 @@ public class Book extends AbstractIdEntity{
         this.name = name;
         this.author = author;
         this.year = year;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
-    public Details getDetails() {
-        return details;
-    }
-
-    public void setDetails(Details details) {
-        this.details = details;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 }

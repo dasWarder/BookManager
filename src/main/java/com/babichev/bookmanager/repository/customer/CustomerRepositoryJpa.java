@@ -1,4 +1,4 @@
-package com.babichev.bookmanager.repository;
+package com.babichev.bookmanager.repository.customer;
 
 import com.babichev.bookmanager.entity.Customer;
 import org.springframework.stereotype.Repository;

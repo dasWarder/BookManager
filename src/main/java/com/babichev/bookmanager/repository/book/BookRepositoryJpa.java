@@ -1,4 +1,4 @@
-package com.babichev.bookmanager.repository;
+package com.babichev.bookmanager.repository.book;
 
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Customer;

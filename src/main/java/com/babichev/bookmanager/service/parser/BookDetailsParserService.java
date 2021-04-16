@@ -1,8 +1,9 @@
-package com.babichev.bookmanager.service;
+package com.babichev.bookmanager.service.parser;
 
 
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Details;
+import com.babichev.bookmanager.service.book.BookService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

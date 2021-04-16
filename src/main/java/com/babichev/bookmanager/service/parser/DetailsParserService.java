@@ -1,4 +1,4 @@
-package com.babichev.bookmanager.service;
+package com.babichev.bookmanager.service.parser;
 
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Details;

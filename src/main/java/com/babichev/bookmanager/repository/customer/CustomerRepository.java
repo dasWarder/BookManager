@@ -1,8 +1,8 @@
-package com.babichev.bookmanager.service;
+package com.babichev.bookmanager.repository.customer;
 
 import com.babichev.bookmanager.entity.Customer;
 
-public interface CustomerService {
+public interface CustomerRepository {
 
     Customer add(Customer customer);
 

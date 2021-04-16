@@ -2,9 +2,9 @@ package com.babichev.bookmanager.controller;
 
 
 import com.babichev.bookmanager.entity.Book;
-import com.babichev.bookmanager.service.BookService;
-import com.babichev.bookmanager.service.DetailsService;
-import com.babichev.bookmanager.service.DetailsParserService;
+import com.babichev.bookmanager.service.book.BookService;
+import com.babichev.bookmanager.service.detail.DetailsService;
+import com.babichev.bookmanager.service.parser.DetailsParserService;
 import com.babichev.bookmanager.entity.Details;
 import com.babichev.bookmanager.util.SecurityUtil;
 import org.springframework.stereotype.Controller;

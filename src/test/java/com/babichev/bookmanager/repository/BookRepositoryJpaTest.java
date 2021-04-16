@@ -2,8 +2,7 @@ package com.babichev.bookmanager.repository;
 
 import com.babichev.bookmanager.data.TestData;
 import com.babichev.bookmanager.entity.Book;
-import com.babichev.bookmanager.entity.Customer;
-import org.assertj.core.api.Assertions;
+import com.babichev.bookmanager.repository.book.BookRepository;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,8 +1,9 @@
-package com.babichev.bookmanager.service;
+package com.babichev.bookmanager.repository.detail;
 
 import com.babichev.bookmanager.entity.Details;
 
-public interface DetailsService {
+public interface DetailsRepository {
+
     Details add(Details details, int book_id);
     Details get(int details_id, int book_id);
     void remove(int details_id, int book_id);

@@ -1,9 +1,7 @@
 package com.babichev.bookmanager.repository;
 
-import com.babichev.bookmanager.data.TestData;
-import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Customer;
-import com.babichev.bookmanager.entity.Details;
+import com.babichev.bookmanager.repository.customer.CustomerRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.babichev.bookmanager.data.TestData.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

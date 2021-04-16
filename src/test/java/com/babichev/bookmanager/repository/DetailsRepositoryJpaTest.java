@@ -2,6 +2,7 @@ package com.babichev.bookmanager.repository;
 
 import com.babichev.bookmanager.data.TestData;
 import com.babichev.bookmanager.entity.Details;
+import com.babichev.bookmanager.repository.detail.DetailsRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

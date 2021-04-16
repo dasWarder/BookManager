@@ -1,7 +1,7 @@
-package com.babichev.bookmanager.service;
+package com.babichev.bookmanager.service.detail;
 
 import com.babichev.bookmanager.entity.Details;
-import com.babichev.bookmanager.repository.DetailsRepository;
+import com.babichev.bookmanager.repository.detail.DetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

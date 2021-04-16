@@ -2,7 +2,6 @@ package com.babichev.bookmanager.entity;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;

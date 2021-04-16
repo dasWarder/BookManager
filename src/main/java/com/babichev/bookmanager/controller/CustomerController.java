@@ -2,7 +2,7 @@ package com.babichev.bookmanager.controller;
 
 
 import com.babichev.bookmanager.entity.Customer;
-import com.babichev.bookmanager.service.CustomerService;
+import com.babichev.bookmanager.service.customer.CustomerService;
 import com.babichev.bookmanager.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

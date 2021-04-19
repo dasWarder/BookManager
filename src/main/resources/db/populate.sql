@@ -1,3 +1,4 @@
+DELETE FROM note;
 DELETE FROM customer;
 DELETE FROM book;
 
@@ -16,3 +17,7 @@ INSERT INTO book(name, author, year, customer_id) VALUES
 -- INSERT INTO detail(description, image, book_id) VALUES
 --     ('SOME DESCRIPTION FOR THE BOOK', 'SOME LINKS TO THE BOOK', 1),
 --     ('SOME DESCRIPTION TO THE BOOK 2', 'SOME LINKS TO THE BOOK 2', 2);
+
+
+INSERT INTO note(date_time, text, book_id) VALUES
+    ('2021-06-01 12:44:53', 'I have read this book the first time', 4);

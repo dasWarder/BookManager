@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS note;
 DROP TABLE IF EXISTS detail;
 DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS customer;
@@ -33,4 +34,12 @@ CREATE TABLE detail (
 
 CREATE UNIQUE INDEX book_id_description ON detail(book_id, description);
 
+CREATE TABLE note (
+    id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('book_id_seq'),
+    date_time TIMESTAMP,
+    text VARCHAR,
+    book_id INTEGER REFERENCES book(id) ON DELETE CASCADE
+);
+
+CREATE UNIQUE INDEX book_id_note ON note(book_id, date_time);
 

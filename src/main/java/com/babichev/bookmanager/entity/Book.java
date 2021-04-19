@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 
 @Data
@@ -29,6 +31,9 @@ public class Book extends AbstractIdEntity{
 
     @OneToOne(mappedBy = "book", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.LAZY, orphanRemoval = true)
     private Details details;
+
+    @OneToMany(mappedBy = "book", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH}, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Collection<Note> notes;
 
     public Book() {};
 

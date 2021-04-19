@@ -17,3 +17,5 @@ _Version 0.2.4:_
 0.2.4: Add Details to save a description, and an image link in DB
 
 0.3.4: Add a stub for authentication
+
+0.3.5: Add ordering by title, author and year of publication

@@ -60,32 +60,20 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public List<Book> getAllSortedByYear(int customerId) {
-        Query select_b_from_book_b_sorted_by_year = em.createQuery("SELECT b FROM Book b WHERE b.customer.id=:customerId " +
-                "ORDER BY b.year")
-                .setParameter("customerId", customerId);
+    public List<Book> getSortedByParam(String sortBy, int customerId) {
+        String generalQuery = "SELECT b FROM Book b WHERE b.customer.id=:customerId ORDER BY b.";
+        Query finalQuery = null;
 
-        return select_b_from_book_b_sorted_by_year
-                .getResultList();
-    }
+        if(("name").equals(sortBy)) {
+            finalQuery = em.createQuery(generalQuery + "name");
+        } else if (("author").equals(sortBy)) {
+            finalQuery = em.createQuery(generalQuery + "author");
+        } else if (("year").equals(sortBy)) {
+            finalQuery = em.createQuery(generalQuery + "year");
+        }
 
-    @Override
-    public List<Book> getAllSortedByName(int customerId) {
-        Query select_b_from_book_b_sorted_by_name = em.createQuery("SELECT b FROM Book b WHERE b.customer.id=:customerId " +
-                "ORDER BY b.name")
-                .setParameter("customerId", customerId);
-        return select_b_from_book_b_sorted_by_name
-                .getResultList();
-    }
+        finalQuery.setParameter("customerId", customerId);
 
-
-    @Override
-    public List<Book> getAllSortedByAuthor(int customerId) {
-        Query select_b_from_book_b_sorted_by_author = em.createQuery("SELECT b FROM Book b WHERE b.customer.id=:customerId " +
-                "ORDER BY b.author")
-                .setParameter("customerId", customerId);
-
-        return select_b_from_book_b_sorted_by_author
-                .getResultList();
+        return finalQuery.getResultList();
     }
 }

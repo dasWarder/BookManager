@@ -13,9 +13,5 @@ public interface BookRepository {
 
     List<Book> getAll(int customerId);
 
-    List<Book> getAllSortedByYear(int customerId);
-
-    List<Book> getAllSortedByName(int customerId);
-
-    List<Book> getAllSortedByAuthor(int customerId);
+    List<Book> getSortedByParam(String sorBy, int customerId);
 }

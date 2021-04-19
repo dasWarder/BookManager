@@ -24,6 +24,9 @@ public class Details extends AbstractIdEntity {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    @Column(name = "customer_comment")
+    private String comment;
+
 
     public Details() {};
 

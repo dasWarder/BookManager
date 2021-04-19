@@ -92,4 +92,18 @@ public class BookController {
 
         return "bookInfo";
     }
+
+    @PostMapping(value = "/books/book/{id}")
+    public String addComment(@PathVariable("id") int id, @RequestParam("comment") String comment, Model model) {
+        int customerId = SecurityUtil.getAuthUserId();
+
+        Book bookById = bookService.getBookById(id, customerId);
+        bookById.getDetails().setComment(comment);
+        Details add = detailsService.add(bookById.getDetails(), id);
+
+        model.addAttribute("book", bookById);
+        model.addAttribute("information", add);
+
+        return "bookInfo";
+    }
 }

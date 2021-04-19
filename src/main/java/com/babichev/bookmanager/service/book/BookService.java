@@ -12,4 +12,6 @@ public interface BookService {
     Book getBookById(int id, int customerId);
 
     List<Book> getAll(int customerId);
+
+    List<Book> getSorted(String sortBy, int customerId);
 }

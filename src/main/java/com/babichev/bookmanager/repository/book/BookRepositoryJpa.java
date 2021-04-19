@@ -58,4 +58,34 @@ public class BookRepositoryJpa implements BookRepository {
         return select_b_from_book_b
                 .getResultList();
     }
+
+    @Override
+    public List<Book> getAllSortedByYear(int customerId) {
+        Query select_b_from_book_b_sorted_by_year = em.createQuery("SELECT b FROM Book b WHERE b.customer.id=:customerId " +
+                "ORDER BY b.year")
+                .setParameter("customerId", customerId);
+
+        return select_b_from_book_b_sorted_by_year
+                .getResultList();
+    }
+
+    @Override
+    public List<Book> getAllSortedByName(int customerId) {
+        Query select_b_from_book_b_sorted_by_name = em.createQuery("SELECT b FROM Book b WHERE b.customer.id=:customerId " +
+                "ORDER BY b.name")
+                .setParameter("customerId", customerId);
+        return select_b_from_book_b_sorted_by_name
+                .getResultList();
+    }
+
+
+    @Override
+    public List<Book> getAllSortedByAuthor(int customerId) {
+        Query select_b_from_book_b_sorted_by_author = em.createQuery("SELECT b FROM Book b WHERE b.customer.id=:customerId " +
+                "ORDER BY b.author")
+                .setParameter("customerId", customerId);
+
+        return select_b_from_book_b_sorted_by_author
+                .getResultList();
+    }
 }

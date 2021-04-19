@@ -7,6 +7,7 @@ import com.babichev.bookmanager.service.detail.DetailsService;
 import com.babichev.bookmanager.service.parser.DetailsParserService;
 import com.babichev.bookmanager.entity.Details;
 import com.babichev.bookmanager.util.SecurityUtil;
+import org.h2.engine.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,9 @@ public class BookController {
     }
 
     @GetMapping(value = "/books")
-    public String getAll(Model model) {
+    public String getAll(@RequestParam(value = "sort", required = false) String sortBy, Model model) {
         int customerId = SecurityUtil.getAuthUserId();
-        List<Book> all = bookService.getAll(customerId);
+        List<Book> all = sortBy == null? bookService.getAll(customerId) : bookService.getSorted(sortBy, customerId);
 
         model.addAttribute("book", new Book());
         model.addAttribute("books", all);

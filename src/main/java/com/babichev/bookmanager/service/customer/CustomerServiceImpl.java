@@ -30,4 +30,5 @@ public class CustomerServiceImpl implements CustomerService {
     public void remove(int customer_id) {
         customerRepository.remove(customer_id);
     }
+
 }

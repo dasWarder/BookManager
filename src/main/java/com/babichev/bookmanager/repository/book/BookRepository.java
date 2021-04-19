@@ -12,4 +12,10 @@ public interface BookRepository {
     Book get(int id, int customerId);
 
     List<Book> getAll(int customerId);
+
+    List<Book> getAllSortedByYear(int customerId);
+
+    List<Book> getAllSortedByName(int customerId);
+
+    List<Book> getAllSortedByAuthor(int customerId);
 }

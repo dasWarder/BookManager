@@ -1,5 +1,6 @@
 package com.babichev.bookmanager.repository;
 
+import com.babichev.bookmanager.data.TestData;
 import com.babichev.bookmanager.entity.Customer;
 import com.babichev.bookmanager.repository.customer.CustomerRepository;
 import org.junit.Assert;
@@ -56,5 +57,21 @@ public class CustomerRepositoryJpaTest {
         customerRepository.remove(getted.getId());
 
         Assert.assertEquals(null, customerRepository.get(getted.getId()));
+    }
+
+    @Test
+    public void update() {
+        Customer getted = customerRepository.get(FIRST_CUSTOMER.getId());
+        int customerId = getted.getId();
+
+        Customer updated = updatedCustomer(getted);
+        Customer addUpdated = customerRepository.add(updated);
+
+        assertThat(updated)
+                .usingRecursiveComparison()
+                .ignoringFields("books")
+                .isEqualTo(customerRepository.get(customerId));
+
+
     }
 }

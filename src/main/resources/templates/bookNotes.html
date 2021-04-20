@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h2 class="display-3">Notes</h2>
+            <hr>
+        </div>
+        <div class="row">
+            <div th:each="note: ${notes}">
+                <p th:text="${note.getDateAndTime}"/>
+                <p th:text="${note.getText}"/>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -19,24 +19,24 @@ public class DetailsServiceImpl implements DetailsService {
 
     @Override
     @Transactional
-    public Details add(Details details, int book_id) {
+    public Details add(Details details, int bookId) {
         if(details != null) {
-            return detailsRepository.add(details, book_id);
+            return detailsRepository.add(details, bookId);
         }
 
         throw new NullPointerException("Entity couldn't be equals null");
     }
 
     @Override
-    public Details get(int details_id, int book_id) {
-        Details details = detailsRepository.get(details_id, book_id);
+    public Details get(int detailsId, int bookId) {
+        Details details = detailsRepository.get(detailsId, bookId);
 
         return details != null? details : null;
     }
 
     @Override
     @Transactional
-    public void remove(int details_id, int book_id) {
-            detailsRepository.remove(details_id, book_id);
+    public void remove(int detailsId, int bookId) {
+            detailsRepository.remove(detailsId, bookId);
     }
 }

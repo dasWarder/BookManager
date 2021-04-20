@@ -17,13 +17,13 @@ public class DetailsRepositoryJpa implements DetailsRepository {
 
     @Override
     @Transactional
-    public Details add(Details details, int book_id) {
-        details.setBook(em.getReference(Book.class, book_id));
+    public Details add(Details details, int bookId) {
+        details.setBook(em.getReference(Book.class, bookId));
 
         if(details.getId() == null) {
             em.persist(details);
             return details;
-        } else if(get(details.getId(), book_id) == null){
+        } else if(get(details.getId(), bookId) == null){
             return null;
         }
 
@@ -31,15 +31,15 @@ public class DetailsRepositoryJpa implements DetailsRepository {
     }
 
     @Override
-    public Details get(int details_id, int book_id) {
-        Details details = em.find(Details.class, details_id);
-        return details != null && details.getBook().getId() == book_id? details : null;
+    public Details get(int detailsId, int bookId) {
+        Details details = em.find(Details.class, detailsId);
+        return details != null && details.getBook().getId() == bookId? details : null;
     }
 
     @Override
     @Transactional
-    public void remove(int details_id, int book_id) {
-        Details details = get(details_id, book_id);
+    public void remove(int detailsId, int bookId) {
+        Details details = get(detailsId, bookId);
         em.remove(details);
     }
 }

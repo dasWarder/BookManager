@@ -20,4 +20,5 @@ INSERT INTO book(name, author, year, customer_id) VALUES
 
 
 INSERT INTO note(date_time, text, book_id) VALUES
-    ('2021-06-01 12:44:53', 'I have read this book the first time', 4);
+    ('2021-06-01 12:44:53', 'I have read this book the first time', 4),
+    ('2021-06-02 14:30:00', 'I think this book is pretty interesting', 4);

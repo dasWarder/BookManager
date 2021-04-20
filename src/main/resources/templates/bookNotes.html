@@ -1,19 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Notes</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container" th:object="${bookId}">
         <div class="row">
             <h2 class="display-3">Notes</h2>
             <hr>
         </div>
+
         <div class="row">
-            <div th:each="note: ${notes}">
-                <p th:text="${note.getDateAndTime}"/>
-                <p th:text="${note.getText}"/>
+            <div class="border">
+                <div th:each="note: ${notes}">
+                        <input type="hidden" th:value="${note.getId}"/>
+                        <p th:text="${note.getText}"/>
+                        <small class="text-info">
+                            <label class = "col-md-2" th:text="${#temporals.format(note.getDateAndTime(), 'dd MMMM yyyy HH:mm')}"/>
+                            <a type="submit" class="col-md-2" onclick="if (!(confirm('Are you sure want to delete this book?'))) return false" th:href="@{/books/book/{id}/{noteId} (id = ${bookId}, noteId = ${note.getId})}">Delete</a>
+                        </small>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="pt-3 mt-3 ml-2">
+                <label>Write your comment here:</label>
+                <form class="input-group mb-5" th:action="@{/books/book/{id}/notes/add (id = ${bookId})}" method="post">
+                    <textarea th:name="comment" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                    <input class="btn btn-warning" type="submit" value="Add comment">
+                </form>
             </div>
         </div>
     </div>

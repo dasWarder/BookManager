@@ -16,19 +16,13 @@
                 <p><b>Name: </b><span th:text = "${book.name}"/></p>
                 <p><b>Author: </b><span th:text = "${book.author}"/></p>
                 <p><b>Year: </b><span th:text = "${book.year}"/></p>
+                <p><b>Your notes about this book:</b></p>
+                <a class="btn btn-warning btn-lg mx-2" th:href="@{/books/book/{id}/notes (id = ${book.id})}">Notes</a>
             </div>
             <div th:object="${information}">
-                <p><b>Your comment: </b><span th:text = "${information.comment}"></span></p>
                 <p><b>Description: </b><span th:text = "${information.description}"></span></p>
                 <p><img th:src="${information.image}"></p>
             </div>
-        </div>
-        <div class = "row">
-            <form  align="center" class="form-inline my-4" action="#" th:action="@{/books/book/{id} (id= ${book.id})}" method="post">
-                <label>Your comment to this book: </label>
-                <input type="text" th:name="comment"/>
-                <button type="submit" class="btn btn-warning btn-sm mx-2">Add comment</button>
-            </form>
         </div>
     </div>
 </body>

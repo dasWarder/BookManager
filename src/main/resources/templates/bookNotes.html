@@ -11,7 +11,11 @@
             <h2 class="display-3">Notes</h2>
             <hr>
         </div>
-
+        <div class="row">
+            <small class="text-info my-3">
+                <a th:href="@{/books/book/{id} (id = ${bookId})}">Back</a>
+            </small>
+        </div>
         <div class="row">
             <div class="border">
                 <div th:each="note: ${notes}">
@@ -28,10 +32,10 @@
 
         <div class="row">
             <div class="pt-3 mt-3 ml-2">
-                <label>Write your comment here:</label>
+                <label>Write your note here:</label>
                 <form class="input-group mb-5" th:action="@{/books/book/{id}/notes/add (id = ${bookId})}" method="post">
                     <textarea th:name="comment" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
-                    <input class="btn btn-warning" type="submit" value="Add comment">
+                    <input class="btn btn-warning" type="submit" value="Add note">
                 </form>
             </div>
         </div>

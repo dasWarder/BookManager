@@ -11,13 +11,18 @@
             <h1 class="display-3">Detail information</h1>
             <hr>
         </div>
+        <div class="row">
+            <small class="text-info my-3">
+                <a th:href="@{/books}">Back</a>
+            </small>
+        </div>
         <div class = "row">
             <div>
                 <p><b>Name: </b><span th:text = "${book.name}"/></p>
                 <p><b>Author: </b><span th:text = "${book.author}"/></p>
                 <p><b>Year: </b><span th:text = "${book.year}"/></p>
                 <p><b>Your notes about this book:</b></p>
-                <a class="btn btn-warning btn-lg mx-2" th:href="@{/books/book/{id}/notes (id = ${book.id})}">Notes</a>
+                <a class="btn btn-info btn-lg mx-2" th:href="@{/books/book/{id}/notes (id = ${book.id})}">Notes</a>
             </div>
             <div th:object="${information}">
                 <p><b>Description: </b><span th:text = "${information.description}"></span></p>

@@ -1,13 +1,13 @@
 package com.babichev.bookmanager.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
-@ToString
+
 @Entity
 @Table(name = "note")
 public class Note extends AbstractIdEntity {
@@ -33,5 +33,29 @@ public class Note extends AbstractIdEntity {
     public Note(LocalDateTime dateAndTime, String text) {
         this.dateAndTime = dateAndTime;
         this.text = text;
+    }
+
+    public LocalDateTime getDateAndTime() {
+        return dateAndTime;
+    }
+
+    public void setDateAndTime(LocalDateTime dateAndTime) {
+        this.dateAndTime = dateAndTime;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
     }
 }

@@ -28,8 +28,7 @@ CREATE TABLE detail (
     id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('book_id_seq'),
     description VARCHAR,
     image VARCHAR,
-    book_id INTEGER REFERENCES book(id) ON DELETE CASCADE,
-    customer_comment VARCHAR
+    book_id INTEGER REFERENCES book(id) ON DELETE CASCADE
 );
 
 CREATE UNIQUE INDEX book_id_description ON detail(book_id, description);

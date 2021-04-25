@@ -28,9 +28,9 @@ public class TestData {
     public static final Book FOURTH_BOOK = new Book(6, "War and Peace", "Tolstoy", 1867);
     public static final Book WRONG_ID_BOOK = new Book(10000000, "WRONG", "WRONG", 2000);
     public static final Details FIRST_DETAILS = new Details(7, "THE HOBBIT DESCRIPTION", "THE HOBBIT BOOK COVER");
-    public static final Note FIRST_NOTE = new Note(8, LocalDateTime
+    public static final Note FIRST_NOTE = new Note(12, LocalDateTime
             .of(2021, 04, 10, 12, 22, 00), "First time I read this book");
-    public static final Note SECOND_NOTE = new Note(9, LocalDateTime
+    public static final Note SECOND_NOTE = new Note(13, LocalDateTime
             .of(2021, 04, 12, 14, 44, 54), "The second note about this book");
 
 

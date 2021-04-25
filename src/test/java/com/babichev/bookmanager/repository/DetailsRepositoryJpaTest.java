@@ -52,6 +52,7 @@ public class DetailsRepositoryJpaTest {
 
         assertThat(firstDetails)
                 .usingRecursiveComparison()
+                .ignoringFields("book")
                 .isEqualTo(details);
     }
 

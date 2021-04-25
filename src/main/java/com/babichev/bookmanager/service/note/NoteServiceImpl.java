@@ -5,6 +5,7 @@ import com.babichev.bookmanager.repository.note.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -18,6 +19,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Transactional
     public Note add(Note note, int bookId) {
         if(note != null) {
             return noteRepository.add(note, bookId);
@@ -27,11 +29,13 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Transactional
     public Note get(int id, int bookId) {
         return noteRepository.get(id, bookId);
     }
 
     @Override
+    @Transactional
     public void remove(int id, int bookId) {
         noteRepository.remove(id, bookId);
     }

@@ -33,7 +33,7 @@ public class BookRepositoryJpaTest {
         Book bookById = bookRepository.get(TestData.FIRST_BOOK.getId(), customerId);
 
         assertThat(bookById).usingRecursiveComparison()
-                .ignoringFields("details", "customer")
+                .ignoringFields("details", "customer", "notes")
                 .isEqualTo(TestData.FIRST_BOOK);
     }
 
@@ -57,7 +57,7 @@ public class BookRepositoryJpaTest {
 
         assertThat(bookRepository.get(id, customerId))
                 .usingRecursiveComparison()
-                .ignoringFields("details", "customer")
+                .ignoringFields("details", "customer", "notes")
                 .isEqualTo(mockBookWithId);
     }
 
@@ -96,7 +96,7 @@ public class BookRepositoryJpaTest {
 
         assertThat(TestData.books)
                 .usingRecursiveComparison()
-                .ignoringFields("details", "customer")
+                .ignoringFields("details", "customer", "notes")
                 .isEqualTo(all);
     }
 

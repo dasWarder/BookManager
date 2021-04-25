@@ -6,6 +6,8 @@ import com.babichev.bookmanager.repository.customer.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -17,16 +19,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public Customer add(Customer customer) {
         return customerRepository.add(customer);
     }
 
     @Override
+    @Transactional
     public Customer get(int customer_id) {
         return customerRepository.get(customer_id);
     }
 
     @Override
+    @Transactional
     public void remove(int customer_id) {
         customerRepository.remove(customer_id);
     }

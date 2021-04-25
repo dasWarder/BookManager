@@ -28,6 +28,7 @@ public class DetailsServiceImpl implements DetailsService {
     }
 
     @Override
+    @Transactional
     public Details get(int detailsId, int bookId) {
         Details details = detailsRepository.get(detailsId, bookId);
 

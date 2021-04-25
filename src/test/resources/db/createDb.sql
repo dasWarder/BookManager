@@ -31,3 +31,4 @@ CREATE TABLE detail_test (
 );
 
 CREATE UNIQUE INDEX book_id_description ON detail_test(book_id, description);
+

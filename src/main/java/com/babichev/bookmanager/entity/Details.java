@@ -2,14 +2,11 @@ package com.babichev.bookmanager.entity;
 
 
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.*;
 
 
 
-@Data
-@ToString
 @Entity
 @Table(name = "detail")
 public class Details extends AbstractIdEntity {
@@ -20,12 +17,9 @@ public class Details extends AbstractIdEntity {
     @Column(name = "image")
     private String image;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
-
-    @Column(name = "customer_comment")
-    private String comment;
 
 
     public Details() {};
@@ -42,4 +36,27 @@ public class Details extends AbstractIdEntity {
         this.image = image;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
 }

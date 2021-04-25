@@ -17,10 +17,10 @@
             </small>
         </div>
         <div class="row">
-            <div class="border">
+            <div class="border bg-light">
                 <div th:each="note: ${notes}">
                         <input type="hidden" th:value="${note.getId}"/>
-                        <p th:text="${note.getText}"/>
+                        <p class="mt-4" th:text="${note.getText}"/>
                         <small class="text-info">
                             <label class = "col-md-2" th:text="${#temporals.format(note.getDateAndTime(), 'dd MMMM yyyy HH:mm')}"/>
                             <a type="submit" class="col-md-2" onclick="if (!(confirm('Are you sure want to delete this book?'))) return false" th:href="@{/books/book/{id}/{noteId} (id = ${bookId}, noteId = ${note.getId})}">Delete</a>

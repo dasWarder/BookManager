@@ -47,12 +47,12 @@ public class CustomerRepositoryJpaTest {
 
     @Test
     public void remove() {
-        Customer getted = customerRepository.get(FIRST_CUSTOMER.getId());
+        Customer getted = customerRepository.get(SECOND_CUSTOMER.getId());
 
         assertThat(getted)
                 .usingRecursiveComparison()
                 .ignoringFields("books")
-                .isEqualTo(FIRST_CUSTOMER);
+                .isEqualTo(SECOND_CUSTOMER);
 
         customerRepository.remove(getted.getId());
 

@@ -10,6 +10,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.io.IOException;
 
@@ -30,7 +31,7 @@ public class BookDetailsParserService implements DetailsParserService {
 
     @Override
     public Details findInfoOnPage(Book book) {
-
+        Assert.notNull(book, "book must not be null");
         String searchingParam = buildSearchingParam(book);
         String formattedUrl = String.format(SEARCH_PAGE_URL, searchingParam);
 
@@ -40,7 +41,7 @@ public class BookDetailsParserService implements DetailsParserService {
         return details;
     }
 
-    //BUILD A STRING TO ADD AS PARAM FOR FORMATTER FOR INFO_URL STRING
+    //BUILD A STRING TO ADD AS PARAM FOR FORMATTER OF INFO_URL STRING
     private String buildSearchingParam(Book book) {
         String name = book.getName();
         String author = book.getAuthor();

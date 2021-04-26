@@ -1,9 +1,7 @@
 package com.babichev.bookmanager.entity;
 
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
@@ -11,6 +9,9 @@ import java.util.*;
 
 @Entity
 @Table(name = "customer")
+@Data
+@EqualsAndHashCode
+@NoArgsConstructor
 public class Customer extends AbstractIdEntity {
 
     @Column(name = "login")
@@ -22,8 +23,6 @@ public class Customer extends AbstractIdEntity {
     @OneToMany(mappedBy = "customer", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH}, orphanRemoval = true, fetch = FetchType.LAZY)
     private Collection<Book> books;
 
-    public Customer() {}
-
     public Customer(Integer id, String login, String password) {
         super(id);
         this.login = login;
@@ -33,29 +32,5 @@ public class Customer extends AbstractIdEntity {
     public Customer(String login, String password) {
         this.login = login;
         this.password = password;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Collection<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(Collection<Book> books) {
-        this.books = books;
     }
 }

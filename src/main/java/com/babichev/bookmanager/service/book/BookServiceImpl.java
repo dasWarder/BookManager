@@ -5,6 +5,7 @@ import com.babichev.bookmanager.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,35 +24,28 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public Book addBook(Book book, int customerId) {
-
+        Assert.notNull(book, "book must not be null");
         return bookRepository.add(book, customerId);
     }
 
     @Override
     @Transactional
     public void removeBook(int id, int customerId) {
-
         bookRepository.remove(id, customerId);
     }
 
     @Override
     public Book getBookById(int id, int customerId) {
-        Book book = bookRepository.get(id, customerId);
-
-        return book;
+        return bookRepository.get(id, customerId);
     }
 
     @Override
     public List<Book> getAll(int customerId) {
-        List<Book> all = bookRepository.getAll(customerId);
-
-        return all;
+        return bookRepository.getAll(customerId);
     }
 
     @Override
     public List<Book> getSorted(String sortBy, int customerId) {
-        List<Book> booksSorted = bookRepository.getSortedByParam(sortBy, customerId);
-
-        return booksSorted;
+        return bookRepository.getSortedByParam(sortBy, customerId);
     }
 }

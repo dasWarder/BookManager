@@ -2,6 +2,7 @@ package com.babichev.bookmanager.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -10,6 +11,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "note")
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = "book")
 public class Note extends AbstractIdEntity {
 
     @Column(name = "date_time")
@@ -22,8 +26,6 @@ public class Note extends AbstractIdEntity {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    public Note() {};
-
     public Note(Integer id, LocalDateTime dateAndTime, String text) {
         super(id);
         this.dateAndTime = dateAndTime;
@@ -35,27 +37,4 @@ public class Note extends AbstractIdEntity {
         this.text = text;
     }
 
-    public LocalDateTime getDateAndTime() {
-        return dateAndTime;
-    }
-
-    public void setDateAndTime(LocalDateTime dateAndTime) {
-        this.dateAndTime = dateAndTime;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
 }

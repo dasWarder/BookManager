@@ -25,7 +25,6 @@ public class BookRepositoryJpaTest {
     private BookRepository bookRepository;
 
 
-
     @Test
     public void getById() {
         int customerId = TestData.FIRST_CUSTOMER.getId();

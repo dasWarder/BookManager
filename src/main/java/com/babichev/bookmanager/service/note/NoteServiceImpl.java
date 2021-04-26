@@ -4,6 +4,7 @@ import com.babichev.bookmanager.entity.Note;
 import com.babichev.bookmanager.repository.note.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -21,11 +22,8 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional
     public Note add(Note note, int bookId) {
-        if(note != null) {
-            return noteRepository.add(note, bookId);
-        }
-
-        return null;
+        Assert.notNull(note, "note must not be null");
+        return noteRepository.add(note, bookId);
     }
 
     @Override

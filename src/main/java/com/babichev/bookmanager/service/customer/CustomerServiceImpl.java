@@ -5,6 +5,7 @@ import com.babichev.bookmanager.entity.Customer;
 import com.babichev.bookmanager.repository.customer.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 
@@ -21,6 +22,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public Customer add(Customer customer) {
+        Assert.notNull(customer, "customer must not be null");
         return customerRepository.add(customer);
     }
 

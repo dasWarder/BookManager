@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import static java.util.Objects.isNull;
+
 @Repository
 public class DetailsRepositoryJpa implements DetailsRepository {
 
@@ -20,10 +22,10 @@ public class DetailsRepositoryJpa implements DetailsRepository {
     public Details add(Details details, int bookId) {
         details.setBook(em.getReference(Book.class, bookId));
 
-        if(details.getId() == null) {
+        if (isNull(details.getId())) {
             em.persist(details);
             return details;
-        } else if(get(details.getId(), bookId) == null){
+        } else if(isNull(get(details.getId(), bookId))){
             return null;
         }
 
@@ -33,7 +35,9 @@ public class DetailsRepositoryJpa implements DetailsRepository {
     @Override
     public Details get(int detailsId, int bookId) {
         Details details = em.find(Details.class, detailsId);
-        return details != null && details.getBook().getId() == bookId? details : null;
+
+        return !isNull(details)
+                && details.getBook().getId() == bookId? details : null;
     }
 
     @Override

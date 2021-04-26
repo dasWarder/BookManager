@@ -5,6 +5,7 @@ import com.babichev.bookmanager.repository.detail.DetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 
 @Service
@@ -20,24 +21,19 @@ public class DetailsServiceImpl implements DetailsService {
     @Override
     @Transactional
     public Details add(Details details, int bookId) {
-        if(details != null) {
-            return detailsRepository.add(details, bookId);
-        }
-
-        throw new NullPointerException("Entity couldn't be equals null");
+        Assert.notNull(details, "details must not be null");
+        return detailsRepository.add(details, bookId);
     }
 
     @Override
     @Transactional
     public Details get(int detailsId, int bookId) {
-        Details details = detailsRepository.get(detailsId, bookId);
-
-        return details != null? details : null;
+        return detailsRepository.get(detailsId, bookId);
     }
 
     @Override
     @Transactional
     public void remove(int detailsId, int bookId) {
-            detailsRepository.remove(detailsId, bookId);
+        detailsRepository.remove(detailsId, bookId);
     }
 }

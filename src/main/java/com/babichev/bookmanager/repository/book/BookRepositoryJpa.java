@@ -10,6 +10,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Repository
 public class BookRepositoryJpa implements BookRepository {
 
@@ -21,10 +23,11 @@ public class BookRepositoryJpa implements BookRepository {
     @Transactional
     public Book add(Book book, int customerId) {
         book.setCustomer(em.getReference(Customer.class, customerId));
-        if(book.getId() == null) {
+
+        if(isNull(book.getId())) {
             em.persist(book);
             return book;
-        } else if (get(book.getId(), customerId) == null){
+        } else if (isNull(get(book.getId(), customerId))){
             return null;
         }
 
@@ -46,7 +49,8 @@ public class BookRepositoryJpa implements BookRepository {
     public Book get(int id, int customerId) {
         Book book = em.find(Book.class, id);
 
-        return book!= null && book.getCustomer().getId() == customerId? book : null;
+        return !isNull(book)
+                && book.getCustomer().getId() == customerId? book : null;
     }
 
     @Override

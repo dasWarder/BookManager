@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Controller
 public class BookController {
 
@@ -30,7 +32,9 @@ public class BookController {
     @GetMapping(value = "/books")
     public String getAll(@RequestParam(value = "sort", required = false) String sortBy, Model model) {
         int customerId = SecurityUtil.getAuthUserId();
-        List<Book> all = sortBy == null? bookService.getAll(customerId) : bookService.getSorted(sortBy, customerId);
+        List<Book> all = isNull(sortBy)?
+                bookService.getAll(customerId) :
+                bookService.getSorted(sortBy, customerId);
 
         model.addAttribute("book", new Book());
         model.addAttribute("books", all);
@@ -43,7 +47,7 @@ public class BookController {
     public String add(@ModelAttribute("book") Book book) {
         int customerId = SecurityUtil.getAuthUserId();
 
-        Book created = bookService.addBook(book, customerId);
+        bookService.addBook(book, customerId);
 
         return "redirect:/books";
     }
@@ -63,7 +67,7 @@ public class BookController {
 
         Book book = bookService.getBookById(id, customerId);
 
-        if(book.getDetails() != null) {
+        if(!isNull(book.getDetails())) {
             detailsService.remove(book.getDetails().getId(), book.getId());
         }
 
@@ -78,8 +82,8 @@ public class BookController {
         Book book = bookService.getBookById(id, customerId);
         Details information;
 
-        if(book != null) {
-                if(book.getDetails() == null) {
+        if(!isNull(book)) {
+                if(isNull(book.getDetails())) {
                     information = parserService.findInfoOnPage(book);
                     detailsService.add(information, book.getId());
                 } else {

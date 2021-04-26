@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import static java.util.Objects.isNull;
+
 @Repository
 public class CustomerRepositoryJpa implements CustomerRepository {
 
@@ -16,10 +18,10 @@ public class CustomerRepositoryJpa implements CustomerRepository {
     @Override
     @Transactional
     public Customer add(Customer customer) {
-        if(customer.getId() == null) {
+        if(isNull(customer.getId())) {
             em.persist(customer);
             return customer;
-        } else if (get(customer.getId()) == null) {
+        } else if (isNull(get(customer.getId()))) {
             return null;
         }
 
@@ -37,8 +39,6 @@ public class CustomerRepositoryJpa implements CustomerRepository {
     public void remove(int customer_id) {
         Customer customer = get(customer_id);
 
-        if(customer != null) {
-            em.remove(customer);
-        }
+        em.remove(customer);
     }
 }

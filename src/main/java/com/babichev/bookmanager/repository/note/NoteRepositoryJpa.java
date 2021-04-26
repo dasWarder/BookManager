@@ -11,6 +11,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Repository
 public class NoteRepositoryJpa implements NoteRepository {
 
@@ -21,10 +23,11 @@ public class NoteRepositoryJpa implements NoteRepository {
     @Transactional
     public Note add(Note note, int bookId) {
         note.setBook(em.getReference(Book.class, bookId));
-        if(note.getId() == null) {
+
+        if(isNull(note.getId())) {
             em.persist(note);
             return note;
-        } else if (get(note.getId(), bookId) == null) {
+        } else if (isNull(get(note.getId(), bookId))) {
             return null;
         }
 
@@ -35,7 +38,8 @@ public class NoteRepositoryJpa implements NoteRepository {
     public Note get(int id, int bookId) {
         Note note = em.find(Note.class, id);
 
-        return note != null && note.getBook().getId() == bookId? note : null;
+        return !isNull(note)
+                && note.getBook().getId() == bookId? note : null;
     }
 
     @Override

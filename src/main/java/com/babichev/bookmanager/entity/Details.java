@@ -2,6 +2,8 @@ package com.babichev.bookmanager.entity;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -9,6 +11,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "detail")
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = "book")
+@Data
 public class Details extends AbstractIdEntity {
 
     @Column(name = "description")
@@ -22,9 +27,6 @@ public class Details extends AbstractIdEntity {
     private Book book;
 
 
-    public Details() {};
-
-
     public Details(String description, String image) {
         this.description = description;
         this.image = image;
@@ -36,27 +38,4 @@ public class Details extends AbstractIdEntity {
         this.image = image;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
 }

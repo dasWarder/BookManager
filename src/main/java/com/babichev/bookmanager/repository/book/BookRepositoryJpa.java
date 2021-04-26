@@ -2,6 +2,7 @@ package com.babichev.bookmanager.repository.book;
 
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Customer;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +57,7 @@ public class BookRepositoryJpa implements BookRepository {
     @Override
     public List<Book> getAll(int customerId) {
         Query select_b_from_book_b = em.createQuery(
-                "SELECT b FROM Book b WHERE b.customer.id=:customerId")
+                "SELECT b FROM Book b LEFT JOIN FETCH b.details WHERE b.customer.id=:customerId")
                 .setParameter("customerId", customerId);
 
         return select_b_from_book_b

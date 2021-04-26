@@ -7,6 +7,7 @@ import com.babichev.bookmanager.service.detail.DetailsService;
 import com.babichev.bookmanager.service.parser.DetailsParserService;
 import com.babichev.bookmanager.entity.Details;
 import com.babichev.bookmanager.util.SecurityUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.h2.engine.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 @Controller
+@Slf4j
 public class BookController {
 
     private BookService bookService;
@@ -32,6 +34,7 @@ public class BookController {
     @GetMapping(value = "/books")
     public String getAll(@RequestParam(value = "sort", required = false) String sortBy, Model model) {
         int customerId = SecurityUtil.getAuthUserId();
+        log.info("Get all books for customer {}", customerId);
         List<Book> all = isNull(sortBy)?
                 bookService.getAll(customerId) :
                 bookService.getSorted(sortBy, customerId);
@@ -46,8 +49,8 @@ public class BookController {
     @PostMapping(value = "/books/add")
     public String add(@ModelAttribute("book") Book book) {
         int customerId = SecurityUtil.getAuthUserId();
-
-        bookService.addBook(book, customerId);
+        log.info("Add a book {} for customer {}", book, customerId);
+        Book addedBook = bookService.addBook(book, customerId);
 
         return "redirect:/books";
     }
@@ -56,16 +59,17 @@ public class BookController {
     @GetMapping(value = "/books/{id}")
     public String remove(@PathVariable("id") int id) {
          int customerId = SecurityUtil.getAuthUserId();
-
+         log.info("Remove a book with id {} for customer {}", id, customerId);
          bookService.removeBook(id, customerId);
+
          return "redirect:/books";
     }
 
     @GetMapping(value = "/books/update/{id}")
-    public String updateForm(@PathVariable("id") int id, Model model) {
+    public String update(@PathVariable("id") int id, Model model) {
         int customerId = SecurityUtil.getAuthUserId();
-
         Book book = bookService.getBookById(id, customerId);
+        log.info("Update a book {} for customer {}", book, customerId);
 
         if(!isNull(book.getDetails())) {
             detailsService.remove(book.getDetails().getId(), book.getId());
@@ -79,33 +83,22 @@ public class BookController {
     @GetMapping(value = "/books/book/{id}")
     public String get(@PathVariable("id") int id, Model model) {
         int customerId = SecurityUtil.getAuthUserId();
+        log.info("Get details for book with id {} for customer with id {}", id, customerId);
         Book book = bookService.getBookById(id, customerId);
         Details information;
-
         if(!isNull(book)) {
                 if(isNull(book.getDetails())) {
+                    log.info("Get new details information for a book with id {} for a customer with id {}", book.getId(), customerId);
                     information = parserService.findInfoOnPage(book);
                     detailsService.add(information, book.getId());
                 } else {
+                    log.info("Get details information with id {} for customer with id {}", book.getDetails().getId(), customerId);
                     information= detailsService.get(book.getDetails().getId(), book.getId());
                 }
                 model.addAttribute("information", information);
         }
 
         model.addAttribute("book", book);
-
-        return "bookInfo";
-    }
-
-    @PostMapping(value = "/books/book/{id}")
-    public String addComment(@PathVariable("id") int id, Model model) {
-        int customerId = SecurityUtil.getAuthUserId();
-
-        Book bookById = bookService.getBookById(id, customerId);
-        Details add = detailsService.add(bookById.getDetails(), id);
-
-        model.addAttribute("book", bookById);
-        model.addAttribute("information", add);
 
         return "bookInfo";
     }

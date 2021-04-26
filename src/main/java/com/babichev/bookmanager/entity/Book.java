@@ -1,10 +1,7 @@
 package com.babichev.bookmanager.entity;
 
 import com.sun.istack.NotNull;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -33,10 +30,10 @@ public class Book extends AbstractIdEntity{
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToOne(mappedBy = "book", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY , orphanRemoval = true)
     private Details details;
 
-    @OneToMany(mappedBy = "book", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private Collection<Note> notes;
 
 

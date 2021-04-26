@@ -5,6 +5,7 @@ import com.babichev.bookmanager.entity.Note;
 import com.babichev.bookmanager.service.book.BookService;
 import com.babichev.bookmanager.service.note.NoteService;
 import com.babichev.bookmanager.util.SecurityUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class NoteController {
 
     private NoteService noteService;
@@ -30,7 +32,8 @@ public class NoteController {
 
 
     @GetMapping(value = "/books/book/{id}/notes")
-    public String show(@PathVariable("id") int bookId, Model model) {
+    public String getAll(@PathVariable("id") int bookId, Model model) {
+        log.info("Get notes for book with id {}", bookId);
         List<Note> all = noteService.getAll(bookId);
 
         model.addAttribute("bookId", bookId);
@@ -43,8 +46,12 @@ public class NoteController {
 
     @PostMapping(value = "/books/book/{id}/notes/add")
     public String add(@PathVariable("id") int bookId, @RequestParam("comment") String comment, Model model) {
+        log.info("Add a note for book with id {}", bookId);
         Note note = noteService.add(new Note(LocalDateTime.now(), comment), bookId);
+        log.info("Note with id {} was successfully added", note.getId());
+
         model.addAttribute("comment", note);
+        log.info("Get all notes for book with id {}", bookId);
         model.addAttribute("notes", noteService.getAll(bookId));
         model.addAttribute("bookId", bookId);
 
@@ -53,6 +60,7 @@ public class NoteController {
 
     @GetMapping(value = "/books/book/{id}/{noteId}")
     public String remove(@PathVariable("id") int bookId, @PathVariable("noteId") int noteId, Model model) {
+        log.info("Remove note with id {} for book with id {}", noteId, bookId);
         noteService.remove(noteId, bookId);
         List<Note> notes = noteService.getAll(bookId);
 

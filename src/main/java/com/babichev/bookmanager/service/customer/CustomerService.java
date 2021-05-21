@@ -9,4 +9,6 @@ public interface CustomerService {
     Customer get(int customer_id);
 
     void remove(int customer_id);
+
+    Customer getByUsername(String name);
 }

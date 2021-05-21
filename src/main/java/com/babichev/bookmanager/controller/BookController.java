@@ -29,16 +29,18 @@ public class BookController {
     private BookService bookService;
     private DetailsParserService parserService;
     private DetailsService detailsService;
+    private SecurityUtil securityUtil;
 
-    public BookController(BookService bookService, DetailsParserService parserService, DetailsService detailsService) {
+    public BookController(BookService bookService, DetailsParserService parserService, DetailsService detailsService, SecurityUtil securityUtil) {
         this.bookService = bookService;
         this.parserService = parserService;
         this.detailsService = detailsService;
+        this.securityUtil = securityUtil;
     }
 
     @GetMapping(value = "/books")
     public String getAll(@RequestParam(value = "sort", required = false) String sortBy, Model model) {
-        int customerId = getLoggedUser();
+        int customerId = securityUtil.getAuthUserId();
         log.info("Get all books for customer {}", customerId);
         List<Book> all = isNull(sortBy)?
                 bookService.getAll(customerId) :
@@ -53,7 +55,7 @@ public class BookController {
 
     @PostMapping(value = "/books/add")
     public String add(@ModelAttribute("book") Book book) {
-        int customerId = getLoggedUser();
+        int customerId = securityUtil.getAuthUserId();
         log.info("Add a book {} for customer {}", book, customerId);
         Book addedBook = bookService.addBook(book, customerId);
 
@@ -63,7 +65,7 @@ public class BookController {
 
     @GetMapping(value = "/books/{id}")
     public String remove(@PathVariable("id") int id) {
-        int customerId = getLoggedUser();
+        int customerId = securityUtil.getAuthUserId();
          log.info("Remove a book with id {} for customer {}", id, customerId);
          bookService.removeBook(id, customerId);
 
@@ -72,7 +74,7 @@ public class BookController {
 
     @GetMapping(value = "/books/update/{id}")
     public String update(@PathVariable("id") int id, Model model) {
-        int customerId = getLoggedUser();
+        int customerId = securityUtil.getAuthUserId();
         Book book = bookService.getBookById(id, customerId);
         log.info("Update a book {} for customer {}", book, customerId);
 
@@ -87,7 +89,7 @@ public class BookController {
 
     @GetMapping(value = "/books/book/{id}")
     public String get(@PathVariable("id") int id, Model model) {
-        int customerId = getLoggedUser();
+        int customerId = securityUtil.getAuthUserId();
         log.info("Get details for book with id {} for customer with id {}", id, customerId);
         Book book = bookService.getBookById(id, customerId);
         Details information;
@@ -106,11 +108,5 @@ public class BookController {
         model.addAttribute("book", book);
 
         return "bookInfo";
-    }
-
-    private Integer getLoggedUser() {
-        UserDetails customer = (UserDetails) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        return Integer.parseInt(customer.getUsername());
     }
 }

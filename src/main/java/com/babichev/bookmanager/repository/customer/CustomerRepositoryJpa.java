@@ -6,6 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -31,6 +35,7 @@ public class CustomerRepositoryJpa implements CustomerRepository {
     @Override
     @Transactional
     public Customer get(int customer_id) {
+
         return em.find(Customer.class, customer_id);
     }
 
@@ -40,5 +45,16 @@ public class CustomerRepositoryJpa implements CustomerRepository {
         Customer customer = get(customer_id);
 
         em.remove(customer);
+    }
+
+    @Override
+    public Optional<Customer> getCustomerByUsername(String name) {
+        Query get_customer_from_c_by_username = em.createQuery("SELECT c FROM Customer c WHERE c.login=:name")
+                .setParameter("name", name);
+
+        List resultList = get_customer_from_c_by_username.getResultList();
+
+        return resultList.stream()
+                .findFirst();
     }
 }

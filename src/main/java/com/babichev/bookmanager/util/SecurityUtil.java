@@ -1,17 +1,34 @@
 package com.babichev.bookmanager.util;
 
+import com.babichev.bookmanager.entity.Customer;
+import com.babichev.bookmanager.service.customer.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+@Component
 public class SecurityUtil {
 
-    private static Integer id = 2;
+    @Autowired
+    private CustomerService customerService;
 
     public SecurityUtil() {
     }
 
-    public static Integer getAuthUserId() {
-        return id;
+    public Integer getAuthUserId() {
+        return customerFromDb().getId();
     }
 
-    public static void setAuthUser(int id) {
-        SecurityUtil.id = id;
+    private Customer customerFromDb() {
+        Customer customer = customerService.getByUsername(getLoggedUser());
+
+        return customer;
+    }
+
+    private String getLoggedUser() {
+        UserDetails customer = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        return customer.getUsername();
     }
 }

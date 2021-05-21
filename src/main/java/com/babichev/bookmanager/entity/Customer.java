@@ -2,13 +2,9 @@ package com.babichev.bookmanager.entity;
 
 
 import lombok.*;
-import org.hibernate.annotations.Cascade;
+
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.*;
 
 
@@ -20,14 +16,10 @@ import java.util.*;
 @Table(name = "users")
 public class Customer extends AbstractIdEntity {
 
-    @Email
-    @NotNull
-    @NotBlank
+
     @Column(name = "username")
     private String login;
 
-    @NotNull
-    @NotBlank
     @Column(name = "password")
     private String password;
 

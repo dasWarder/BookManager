@@ -38,6 +38,7 @@ public class CustomerController {
     public String register(CustomerDTO dto) {
         String encoded = passwordEncoder.encode(dto.getPassword());
         dto.setPassword(encoded);
+
         Customer customer = mapper.fromDtoToUserCustomer(dto);
         customerService.add(customer);
 

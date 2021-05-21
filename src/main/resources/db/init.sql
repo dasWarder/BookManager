@@ -15,6 +15,8 @@ CREATE TABLE users (
     enabled BOOLEAN
 );
 
+CREATE UNIQUE INDEX uniq_email ON users(username);
+
 CREATE TABLE roles (
     id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('book_id_seq'),
     name VARCHAR(45) NOT NULL

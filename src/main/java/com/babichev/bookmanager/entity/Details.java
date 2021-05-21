@@ -8,12 +8,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 
-
-@Entity
-@Table(name = "detail")
-@NoArgsConstructor
-@EqualsAndHashCode(exclude = "book")
 @Data
+@Entity
+@NoArgsConstructor
+@Table(name = "detail")
+@EqualsAndHashCode(exclude = "book")
 public class Details extends AbstractIdEntity {
 
     @Column(name = "description")

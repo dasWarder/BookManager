@@ -3,16 +3,14 @@ package com.babichev.bookmanager.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-
-@Entity
-@Table(name = "note")
 @Data
+@Entity
 @NoArgsConstructor
+@Table(name = "note")
 @EqualsAndHashCode(exclude = "book")
 public class Note extends AbstractIdEntity {
 

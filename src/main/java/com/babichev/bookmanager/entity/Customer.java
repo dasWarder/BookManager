@@ -8,11 +8,11 @@ import javax.persistence.*;
 import java.util.*;
 
 
-@Data
+@Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
-@EqualsAndHashCode
 @Table(name = "users")
 public class Customer extends AbstractIdEntity {
 
@@ -68,5 +68,12 @@ public class Customer extends AbstractIdEntity {
         this.enabled = enabled;
         this.books = books;
         this.roles = roles;
+    }
+
+    public Customer(Integer id, String login, String password, boolean enabled) {
+        super(id);
+        this.login = login;
+        this.password = password;
+        this.enabled = enabled;
     }
 }

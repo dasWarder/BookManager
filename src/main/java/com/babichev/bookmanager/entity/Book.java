@@ -6,10 +6,10 @@ import javax.persistence.*;
 import java.util.Collection;
 
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "book")
-@Data
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = "customer")
 public class Book extends AbstractIdEntity{

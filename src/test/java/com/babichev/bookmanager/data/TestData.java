@@ -1,9 +1,6 @@
 package com.babichev.bookmanager.data;
 
-import com.babichev.bookmanager.entity.Book;
-import com.babichev.bookmanager.entity.Customer;
-import com.babichev.bookmanager.entity.Details;
-import com.babichev.bookmanager.entity.Note;
+import com.babichev.bookmanager.entity.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -19,8 +16,11 @@ import java.util.*;
 //INSERT INTO BOOK(id, name, author, year, customer_id) VALUES (3,'The Hobbit', 'J.R.R.Tolkien', 1937, 20);
 
 public class TestData {
-    public static final Customer FIRST_CUSTOMER = new Customer(20, "marrySmith3", "12345");
-    public static final Customer SECOND_CUSTOMER = new Customer(21, "warder", "12345");
+    public static final Role USER_ROLE = new Role(1, "USER");
+    private static final Set<Role> roles = new HashSet(Arrays.asList(USER_ROLE));
+
+    public static final Customer FIRST_CUSTOMER = new Customer(20, "marrySmith3", "12345", true);
+    public static final Customer SECOND_CUSTOMER = new Customer(21, "warder", "12345", true);
 
     public static final Book FIRST_BOOK = new Book(3, "The Hobbit", "J.R.R.Tolkien", 1937);
     public static final Book SECOND_BOOK = new Book(4, "Harry Potter", "Rowling", 1994);

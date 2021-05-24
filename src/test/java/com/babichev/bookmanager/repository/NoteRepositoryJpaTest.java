@@ -1,9 +1,7 @@
 package com.babichev.bookmanager.repository;
 
 import com.babichev.bookmanager.data.TestData;
-import com.babichev.bookmanager.entity.Details;
 import com.babichev.bookmanager.entity.Note;
-import com.babichev.bookmanager.repository.detail.DetailsRepository;
 import com.babichev.bookmanager.repository.note.NoteRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +16,6 @@ import java.util.List;
 import static com.babichev.bookmanager.data.TestData.*;
 import static com.babichev.bookmanager.data.TestData.FIRST_BOOK;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest

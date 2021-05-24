@@ -1,9 +1,8 @@
 package com.babichev.bookmanager.repository;
 
-import com.babichev.bookmanager.data.TestData;
+
 import com.babichev.bookmanager.entity.Customer;
 import com.babichev.bookmanager.repository.customer.CustomerRepository;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +67,7 @@ public class CustomerRepositoryJpaTest {
         Customer updated = updatedCustomer(getted);
         Customer addUpdated = customerRepository.add(updated);
 
-        assertThat(updated)
+        assertThat(addUpdated)
                 .usingRecursiveComparison()
                 .ignoringFields("books", "roles")
                 .isEqualTo(customerRepository.get(customerId));

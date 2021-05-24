@@ -1,3 +1,5 @@
+INSERT INTO roles(id, name) VALUES (100, 'USER');
+
 INSERT INTO users(id, username, password, enabled) VALUES (20, 'marrySmith3', '12345', true);
 INSERT INTO users(id, username, password, enabled) VALUES (21, 'warder', '12345', true);
 

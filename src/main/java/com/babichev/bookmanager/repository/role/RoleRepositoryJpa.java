@@ -16,7 +16,7 @@ import static java.util.Objects.isNull;
 
 
 @Repository
-public class RoleRepositoryImpl implements RoleRepository {
+public class RoleRepositoryJpa implements RoleRepository {
 
     @PersistenceContext
     private EntityManager em;

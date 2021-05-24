@@ -16,8 +16,7 @@ import java.util.*;
 //INSERT INTO BOOK(id, name, author, year, customer_id) VALUES (3,'The Hobbit', 'J.R.R.Tolkien', 1937, 20);
 
 public class TestData {
-    public static final Role USER_ROLE = new Role(1, "USER");
-    private static final Set<Role> roles = new HashSet(Arrays.asList(USER_ROLE));
+    public static final Role USER_ROLE = new Role(100, "USER");
 
     public static final Customer FIRST_CUSTOMER = new Customer(20, "marrySmith3", "12345", true);
     public static final Customer SECOND_CUSTOMER = new Customer(21, "warder", "12345", true);
@@ -34,17 +33,10 @@ public class TestData {
             .of(2021, 04, 12, 14, 44, 54), "The second note about this book");
 
 
-    public static List<Book> books = new ArrayList<>();
-    public static List<Note> notes = new ArrayList<>();
+    public static List<Book> books = Arrays.asList(FIRST_BOOK, SECOND_BOOK, THIRD_BOOK);
+    public static List<Note> notes = Arrays.asList(FIRST_NOTE, SECOND_NOTE);
+    public static final Set<Role> roles = new HashSet(Arrays.asList(USER_ROLE));
 
-    static {
-        books.add(FIRST_BOOK);
-        books.add(SECOND_BOOK);
-        books.add(THIRD_BOOK);
-
-        notes.add(FIRST_NOTE);
-        notes.add(SECOND_NOTE);
-    }
 
     public static Book createBook() {
         return new Book(null, "NEW BOOK", "NEW AUTHOR", 2021);
@@ -92,9 +84,15 @@ public class TestData {
         return note;
     }
 
+    public static Role createRole() {
+        return new Role("TESTER");
+    }
 
+    public static Role updateRole(Role role) {
+        role.setName("UPDATED_USER");
 
-
+        return role;
+    }
 
 
 }

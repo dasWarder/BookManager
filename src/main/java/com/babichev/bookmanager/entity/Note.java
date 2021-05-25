@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
+/**
+ * A details entity to interact with the details objects
+ */
 @Data
 @Entity
 @NoArgsConstructor

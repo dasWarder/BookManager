@@ -1,12 +1,13 @@
 package com.babichev.bookmanager.entity;
 
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+
+/**
+ * A role entity to interact with the role objects
+ */
 @Getter
 @Setter
 @Entity

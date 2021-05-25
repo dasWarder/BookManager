@@ -16,11 +16,27 @@ import java.io.IOException;
 
 import static com.babichev.bookmanager.util.StringConverter.*;
 
+
+/**
+ * The service that implements DetailsParserService
+ */
 @Service
 public class BookDetailsParserService implements DetailsParserService {
+
+    /**
+     * The field with an URL string that is using for searching
+     */
     private final String SEARCH_PAGE_URL = "https://openlibrary.org/search?q=%s&mode=everything";
+
+    /**
+     * The field with an URL of the main page of a website that is using for parsing
+     */
     private final String INFO_MAIN_URL = "https://openlibrary.org";
 
+    /**
+     * The filed with a BookService bean.
+     * @see BookService
+     */
     private BookService bookService;
 
     @Autowired
@@ -28,31 +44,56 @@ public class BookDetailsParserService implements DetailsParserService {
         this.bookService = bookService;
     }
 
-
+    /**
+     * The main method that encapsulate the full logic of finding details about a book
+     * @param book the book object for which the details must be founded
+     * @return the details object for the @param book
+     */
     @Override
     public Details findInfoOnPage(Book book) {
         Assert.notNull(book, "book must not be null");
+
+        /**
+         * @see BookDetailsParserService#buildSearchingParam(Book)
+         */
         String searchingParam = buildSearchingParam(book);
         String formattedUrl = String.format(SEARCH_PAGE_URL, searchingParam);
 
+        /**
+         * @see BookDetailsParserService#parseDocumentToGetDetailsLink(String)
+         */
         String detailsLink = parseDocumentToGetDetailsLink(formattedUrl);
+
+        /**
+         * @see BookDetailsParserService#getDetails(String)
+         */
         Details details = getDetails(detailsLink);
 
         return details;
     }
 
-    //BUILD A STRING TO ADD AS PARAM FOR FORMATTER OF INFO_URL STRING
+    /**
+     * A method that build a string based on the @param book
+     * @param book the book which one details will be searching
+     * @return the params for searching the book
+     */
     private String buildSearchingParam(Book book) {
         String name = book.getName();
         String author = book.getAuthor();
-
+        /**
+         * @see com.babichev.bookmanager.util.StringConverter#getSplittedString(String)
+         */
         name = name == null || name.equals("")? "" : getSplittedString(name);
         author = author == null || author.equals("")? "" : getSplittedString(author);
 
         return name + author;
     }
 
-
+    /**
+     * The method that parse a web page on @param formattedUrl to get a link with the details information
+     * @param formattedUrl the URL on which the searching will be implemented
+     * @return the link to the details book information page
+     */
     private String parseDocumentToGetDetailsLink(String formattedUrl) {
         String detailsLink = null;
 
@@ -81,6 +122,12 @@ public class BookDetailsParserService implements DetailsParserService {
         return detailsLink;
     }
 
+    /**
+     * The method to parse the URL and get the book details information.
+     * In case the book details is not possible to identified and the exception occurred return the empty details object
+     * @param link the URL to the page with the details book information
+     * @return the details object for the book
+     */
     private Details getDetails(String link) {
         Details details = new Details();
 
@@ -89,7 +136,14 @@ public class BookDetailsParserService implements DetailsParserService {
 
             Elements bookDescriptionClass = document.getElementsByClass("workDetails");
 
+            /**
+             * @see BookDetailsParserService#getDescription(Elements)
+             */
             String description = getDescription(bookDescriptionClass);
+
+            /**
+             * @see BookDetailsParserService#getImageLink(Elements)
+             */
             String imgLink = getImageLink(bookDescriptionClass);
 
             //SET DETAILS FIELDS
@@ -106,6 +160,11 @@ public class BookDetailsParserService implements DetailsParserService {
         return details;
     }
 
+    /**
+     * The method to get the description field for the book details information
+     * @param bookDescriptionClass the group of elements with details information
+     * @return the string with the description for the book
+     */
     private String getDescription(Elements bookDescriptionClass) {
         String description = bookDescriptionClass
                 .first()
@@ -114,7 +173,9 @@ public class BookDetailsParserService implements DetailsParserService {
                 .getElementsByClass("book-description")
                 .first()
                 .text();
-
+        /**
+         * @see com.babichev.bookmanager.util.StringConverter#sliceTheDescription(String, String)
+         */
         description = sliceTheDescription(
                 sliceTheDescription(description,  "Read less"),
                 "Read more");
@@ -122,6 +183,11 @@ public class BookDetailsParserService implements DetailsParserService {
         return description;
     }
 
+    /**
+     * The method to get the imageLink field for the book details information
+     * @param bookDescriptionClass the group of elements with the book cover link
+     * @return the link to the book cover image
+     */
     private String getImageLink(Elements bookDescriptionClass) {
         String imgLink = bookDescriptionClass
                 .first()

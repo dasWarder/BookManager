@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.util.Collection;
 
 
+/**
+ * A book entity to interact with the book objects
+ */
 @Getter
 @Setter
 @Entity

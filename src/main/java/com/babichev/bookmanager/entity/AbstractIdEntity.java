@@ -5,6 +5,10 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
+
+/**
+ * A parent entity with ID
+ */
 @Data
 @EqualsAndHashCode
 @MappedSuperclass

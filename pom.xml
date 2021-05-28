@@ -64,6 +64,12 @@
         </dependency>
 
         <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-dep</artifactId>
+            <version>1.9.12</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
@@ -98,10 +104,27 @@
             <artifactId>hibernate-validator</artifactId>
             <version>${validation.version}</version>
         </dependency>
-
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <property>
+                    <name>activatedProperties</name>
+                    <value>prod</value>
+                </property>
+            </activation>
+        </profile>
+    </profiles>
+
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -110,5 +133,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

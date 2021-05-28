@@ -5,12 +5,16 @@ import com.babichev.bookmanager.entity.Customer;
 import com.babichev.bookmanager.exception.CustomerNotFoundException;
 import com.babichev.bookmanager.repository.book.BookRepository;
 import com.babichev.bookmanager.repository.customer.CustomerRepository;
+import com.babichev.bookmanager.service.email.MailSenderService;
+import com.babichev.bookmanager.util.formatter.MessageFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+
+import static com.babichev.bookmanager.util.formatter.MessageFormatter.formatGreetingMessage;
 
 /**
  * The service class that implements CustomerService interface
@@ -24,9 +28,16 @@ public class CustomerServiceImpl implements CustomerService {
      */
     private CustomerRepository customerRepository;
 
+    /**
+     * The field with a mail sender service bean
+     * @see MailSenderService
+     */
+    private MailSenderService mailSenderService;
+
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, MailSenderService mailSenderService) {
         this.customerRepository = customerRepository;
+        this.mailSenderService = mailSenderService;
     }
 
     /**
@@ -38,6 +49,10 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public Customer add(Customer customer) {
         Assert.notNull(customer, "customer must not be null");
+        if(customer.getId() == null) {
+            mailSenderService.sendMessage(
+                    formatGreetingMessage(customer.getLogin()));
+        }
 
         /**
          * @see CustomerRepository#add(Customer)

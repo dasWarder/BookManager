@@ -5,17 +5,8 @@ import com.babichev.bookmanager.entity.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-//('The Hobbit', 'J.R.R.Tolkien', 1937),
-//('Harry Potter', 'Rowling', 1994),
-//('The witcher', 'Sapkowski', 1986),
-//('War and Peace', 'Tolstoy', 1867);
-
-//(20, 'marrySmith3', '12345'),
-//(21, 'warder', '12345');
-
-//INSERT INTO BOOK(id, name, author, year, customer_id) VALUES (3,'The Hobbit', 'J.R.R.Tolkien', 1937, 20);
-
 public class TestData {
+
     public static final Role USER_ROLE = new Role(100, "USER");
 
     public static final Customer FIRST_CUSTOMER = new Customer(20, "marrySmith3", "12345", true);
@@ -74,7 +65,7 @@ public class TestData {
     public static Note createNote() {
         return
                 new Note(LocalDateTime
-                .of(2021, 04, 20, 9, 30, 25), "NEW TEXT FOR NOTE");
+                        .of(2021, 04, 20, 9, 30, 25), "NEW TEXT FOR NOTE");
     }
 
     public static Note updateNote(Note note) {

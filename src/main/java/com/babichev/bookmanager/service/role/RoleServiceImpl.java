@@ -2,7 +2,6 @@ package com.babichev.bookmanager.service.role;
 
 import com.babichev.bookmanager.entity.Role;
 import com.babichev.bookmanager.exception.RoleNotFoundException;
-import com.babichev.bookmanager.repository.customer.CustomerRepository;
 import com.babichev.bookmanager.repository.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

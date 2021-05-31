@@ -14,7 +14,7 @@
     <name>bookmanager</name>
     <description>Book manager for getting information about books</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>16</java.version>
         <validation.version>6.2.0.Final</validation.version>
         <jsoup.version>1.13.1</jsoup.version>
         <lombok.version>1.18.20</lombok.version>

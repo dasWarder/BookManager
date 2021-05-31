@@ -4,9 +4,8 @@ import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Details;
 import com.babichev.bookmanager.exception.BookNotFoundException;
 import com.babichev.bookmanager.repository.book.BookRepository;
-import com.babichev.bookmanager.repository.customer.CustomerRepository;
 import com.babichev.bookmanager.repository.detail.DetailsRepository;
-import com.babichev.bookmanager.service.AbstractService;
+import com.babichev.bookmanager.service.AbstractBookedService;
 import com.babichev.bookmanager.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ import org.springframework.util.Assert;
  * The service class that implements DetailsService interface
  */
 @Service
-public class DetailsServiceImpl extends AbstractService implements DetailsService {
+public class DetailsBookedServiceImpl extends AbstractBookedService implements DetailsService {
 
     /**
      * The field with a details repository bean
@@ -27,7 +26,7 @@ public class DetailsServiceImpl extends AbstractService implements DetailsServic
     private DetailsRepository detailsRepository;
 
     @Autowired
-    public DetailsServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, DetailsRepository detailsRepository) {
+    public DetailsBookedServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, DetailsRepository detailsRepository) {
         super(bookRepository, securityUtil);
         this.detailsRepository = detailsRepository;
     }

@@ -31,6 +31,26 @@
             </div>
         </div>
         <div class="row">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end pagination-sm">
+                    <li class="page-item" th:each="size: ${size}">
+                        <a class="page-link" th:href="@{'/books?page=' + ${books.getNumber} + '&size=' + ${size}}" th:text="${size}"></a>
+                    </li>
+                </ul>
+                <ul class="pagination justify-content-end">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="page: ${#numbers.sequence(0, books.getTotalPages() - 1)}">
+                        <a class="page-link" th:href="@{'/books?page=' + ${page} + '&size=' + ${books.getSize}}" th:text="${page + 1}"></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row">
             <table class="table table-bordered table striped">
                 <thead class="table-dark">
                     <tr>
@@ -59,6 +79,26 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="row">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="page: ${#numbers.sequence(0, books.getTotalPages() - 1)}">
+                        <a class="page-link" th:href="@{'/books?page=' + ${page} + '&size=' + ${books.getSize}}" th:text="${page + 1}"></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+                <ul class="pagination justify-content-end pagination-sm">
+                    <li class="page-item" th:each="size: ${size}">
+                        <a class="page-link" th:href="@{'/books?page=' + ${books.getNumber} + '&size=' + ${size}}" th:text="${size}"></a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </body>

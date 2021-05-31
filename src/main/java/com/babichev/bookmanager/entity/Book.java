@@ -17,14 +17,13 @@ import java.util.Collection;
 @EqualsAndHashCode(exclude = "customer")
 public class Book extends AbstractIdEntity{
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-
-    @Column(name = "author")
+    @Column(name = "author", nullable = false)
     private String author;
 
-    @Column(name = "year")
+    @Column(name = "year",nullable = true)
     private Integer year;
 
     @ManyToOne(fetch = FetchType.LAZY)

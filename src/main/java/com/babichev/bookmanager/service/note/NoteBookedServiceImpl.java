@@ -4,11 +4,9 @@ import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Note;
 import com.babichev.bookmanager.exception.BookNotFoundException;
 import com.babichev.bookmanager.repository.book.BookRepository;
-import com.babichev.bookmanager.repository.customer.CustomerRepository;
 import com.babichev.bookmanager.repository.note.NoteRepository;
-import com.babichev.bookmanager.service.AbstractService;
+import com.babichev.bookmanager.service.AbstractBookedService;
 import com.babichev.bookmanager.util.SecurityUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -20,7 +18,7 @@ import java.util.List;
  * The service class that implements NoteService interface
  */
 @Service
-public class NoteServiceImpl extends AbstractService implements NoteService {
+public class NoteBookedServiceImpl extends AbstractBookedService implements NoteService {
 
     /**
      * The field with a note repository bean
@@ -28,7 +26,7 @@ public class NoteServiceImpl extends AbstractService implements NoteService {
      */
     private NoteRepository noteRepository;
 
-    public NoteServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, NoteRepository noteRepository) {
+    public NoteBookedServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, NoteRepository noteRepository) {
         super(bookRepository, securityUtil);
         this.noteRepository = noteRepository;
     }

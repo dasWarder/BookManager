@@ -19,10 +19,10 @@ import java.util.*;
 public class Customer extends AbstractIdEntity {
 
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String login;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "enabled")

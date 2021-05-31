@@ -2,6 +2,8 @@ package com.babichev.bookmanager.service.book;
 
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.exception.BookNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ public interface BookService {
      * @param customerId the ID of a customer which one the collection of books must belong
      * @return the list of books for the customer from the database
      */
-    List<Book> getAll(int customerId);
+    Page<Book> getAll(int customerId, Pageable pageable);
 
     /**
      * The method to validate a list of sorted book objects by a parameter
@@ -46,5 +48,5 @@ public interface BookService {
      * @param customerId the ID of a customer which one the list of books must belong
      * @return the sorted list of books from the database
      */
-    List<Book> getSorted(String sortBy, int customerId) throws BookNotFoundException;
+    Page<Book> getSorted(String sortBy, int customerId, Pageable pageable) throws BookNotFoundException;
 }

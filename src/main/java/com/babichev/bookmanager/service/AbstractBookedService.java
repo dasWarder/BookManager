@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public abstract class AbstractService {
+public abstract class AbstractBookedService {
 
     protected BookRepository bookRepository;
 
     protected SecurityUtil securityUtil;
 
     @Autowired
-    public AbstractService(BookRepository bookRepository, SecurityUtil securityUtil) {
+    public AbstractBookedService(BookRepository bookRepository, SecurityUtil securityUtil) {
         this.bookRepository = bookRepository;
         this.securityUtil = securityUtil;
     }

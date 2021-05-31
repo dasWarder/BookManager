@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -92,9 +94,10 @@ public class BookRepositoryJpaTest {
 
     @Test
     public void getAll() {
+        Pageable pageable = Pageable.unpaged();
         int customerId = TestData.FIRST_CUSTOMER.getId();
 
-        List<Book> all = bookRepository.getBooksByCustomer_Id(customerId);
+        Page<Book> all = bookRepository.getBooksByCustomer_Id(customerId, pageable);
 
         assertThat(TestData.books)
                 .usingRecursiveComparison()

@@ -18,10 +18,10 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(exclude = "book")
 public class Note extends AbstractIdEntity {
 
-    @Column(name = "date_time")
+    @Column(name = "date_time", nullable = false)
     private LocalDateTime dateAndTime;
 
-    @Column(name = "text")
+    @Column(name = "text", nullable = false)
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})

@@ -6,14 +6,18 @@ import com.babichev.bookmanager.exception.CustomerNotFoundException;
 import com.babichev.bookmanager.repository.book.BookRepository;
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.repository.customer.CustomerRepository;
-import com.babichev.bookmanager.service.AbstractService;
+import com.babichev.bookmanager.service.AbstractBookedService;
 import com.babichev.bookmanager.util.SecurityUtil;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,7 +25,7 @@ import java.util.List;
  * The service class that implements BookService interface
  */
 @Service
-public class BookServiceImpl extends AbstractService implements BookService {
+public class BookBookedServiceImpl extends AbstractBookedService implements BookService {
 
     /**
      * The field with a customer repository bean
@@ -30,7 +34,7 @@ public class BookServiceImpl extends AbstractService implements BookService {
     private final CustomerRepository customerRepository;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, CustomerRepository customerRepository) {
+    public BookBookedServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, CustomerRepository customerRepository) {
         super(bookRepository, securityUtil);
         this.customerRepository = customerRepository;
     }
@@ -100,12 +104,12 @@ public class BookServiceImpl extends AbstractService implements BookService {
      * @return the list of all book objects from the database
      */
     @Override
-    public List<Book> getAll(int customerId) {
+    public Page<Book> getAll(int customerId, Pageable pageable) {
 
         /**
          * @see BookRepository#getAll(int)
          */
-        return bookRepository.getBooksByCustomer_Id(customerId);
+        return bookRepository.getBooksByCustomer_Id(customerId, pageable);
     }
 
     /**
@@ -115,19 +119,16 @@ public class BookServiceImpl extends AbstractService implements BookService {
      * @return the list of sorted by the param book objects
      */
     @Override
-    public List<Book> getSorted(String sortBy, int customerId) throws BookNotFoundException {
+    public Page<Book> getSorted(String sortBy, int customerId, Pageable pageable) {
 
         /**
          * @see BookRepository#getSortedByParam(String, int)
          */
-        if(sortBy.equals("name")) {
-            return bookRepository.getBooksByCustomer_IdOrderByName(customerId);
-        } else if (sortBy.equals("year")) {
-            return bookRepository.getBooksByCustomer_IdOrderByYear(customerId);
-        } else if (sortBy.equals("author")) {
-            return bookRepository.getBooksByCustomer_IdOrderByAuthor(customerId);
-        }
-
-        throw new BookNotFoundException("There is no books");
+        return bookRepository.getBooksByCustomer_Id(customerId, PageRequest.of(
+                    pageable.getPageNumber(),
+                        pageable.getPageSize(),
+                        Sort.by(
+                                Sort.Direction.ASC,
+                                sortBy)));
     }
 }

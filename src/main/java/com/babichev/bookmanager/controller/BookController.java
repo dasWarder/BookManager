@@ -10,6 +10,10 @@ import com.babichev.bookmanager.service.parser.DetailsParserService;
 import com.babichev.bookmanager.entity.Details;
 import com.babichev.bookmanager.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,9 +32,16 @@ import static java.util.Objects.isNull;
 @Slf4j
 public class BookController {
 
+    private static final int DEFAULT_PAGE_NUMBER = 1;
+
+    private static final int DEFAULT_PAGE_SIZE = 10;
+
     private BookService bookService;
+
     private DetailsParserService parserService;
+
     private DetailsService detailsService;
+
     private SecurityUtil securityUtil;
 
     public BookController(BookService bookService, DetailsParserService parserService, DetailsService detailsService, SecurityUtil securityUtil) {
@@ -40,15 +52,19 @@ public class BookController {
     }
 
     @GetMapping(value = "/books")
-    public String getAll(@RequestParam(value = "sort", required = false) String sortBy, Model model) throws BookNotFoundException {
+    public String getAll(@RequestParam(value = "sort", required = false) String sortBy,
+                         @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
+                         Model model) throws BookNotFoundException {
+
         int customerId = securityUtil.getAuthUserId();
         log.info("Get all books for customer {}", customerId);
-        List<Book> all = isNull(sortBy)?
-                bookService.getAll(customerId) :
-                bookService.getSorted(sortBy, customerId);
+        Page<Book> all = isNull(sortBy)?
+                bookService.getAll(customerId, pageable) :
+                bookService.getSorted(sortBy, customerId, pageable);
 
         model.addAttribute("book", new Book());
         model.addAttribute("books", all);
+        model.addAttribute("size", Arrays.asList(5, 10, 25, 50));
 
         return "books";
     }
@@ -58,7 +74,7 @@ public class BookController {
     public String add(@ModelAttribute("book") Book book) {
         int customerId = securityUtil.getAuthUserId();
         log.info("Add a book {} for customer {}", book, customerId);
-        Book addedBook = bookService.addBook(book, customerId);
+        bookService.addBook(book, customerId);
 
         return "redirect:/books";
     }
@@ -66,7 +82,7 @@ public class BookController {
 
     @GetMapping(value = "/books/{id}")
     public String remove(@PathVariable("id") int id) {
-        int customerId = securityUtil.getAuthUserId();
+         int customerId = securityUtil.getAuthUserId();
          log.info("Remove a book with id {} for customer {}", id, customerId);
          bookService.removeBook(id, customerId);
 

@@ -1,7 +1,13 @@
 package com.babichev.bookmanager.service.book;
 
+import com.babichev.bookmanager.entity.Customer;
+import com.babichev.bookmanager.exception.BookNotFoundException;
+import com.babichev.bookmanager.exception.CustomerNotFoundException;
 import com.babichev.bookmanager.repository.book.BookRepository;
 import com.babichev.bookmanager.entity.Book;
+import com.babichev.bookmanager.repository.customer.CustomerRepository;
+import com.babichev.bookmanager.service.AbstractService;
+import com.babichev.bookmanager.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,17 +21,18 @@ import java.util.List;
  * The service class that implements BookService interface
  */
 @Service
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl extends AbstractService implements BookService {
 
     /**
-     * The field with a book repository bean
-     * @see BookRepository
+     * The field with a customer repository bean
+     * @see CustomerRepository
      */
-    private final BookRepository bookRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookDao) {
-        this.bookRepository = bookDao;
+    public BookServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, CustomerRepository customerRepository) {
+        super(bookRepository, securityUtil);
+        this.customerRepository = customerRepository;
     }
 
     /**
@@ -37,12 +44,26 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public Book addBook(Book book, int customerId) {
-        Assert.notNull(book, "book must not be null");
+        Customer customerFroDb = customerRepository.getCustomerById(customerId);
 
-        /**
-         * @see BookRepository#add(Book, int)
-         */
-        return bookRepository.add(book, customerId);
+        Assert.notNull(book, "book must not be null");
+        Assert.notNull(customerFroDb, "The customer must be not NULL");
+
+        if(book.getCustomer() == null) {
+            /**
+             * @see BookRepository#add(Book, int)
+             */
+            book.setCustomer(customerFroDb);
+            bookRepository.save(book);
+        }
+
+        Customer customer = book.getCustomer();
+
+        if(customer.getId() == customerId) {
+            return bookRepository.save(book);
+        }
+
+        throw new CustomerNotFoundException("The customer with wrong id");
     }
 
     /**
@@ -56,7 +77,7 @@ public class BookServiceImpl implements BookService {
         /**
          * @see BookRepository#remove(int, int)
          */
-        bookRepository.remove(id, customerId);
+        bookRepository.deleteBookByIdAndCustomer_Id(id, customerId);
     }
 
     /**
@@ -70,7 +91,7 @@ public class BookServiceImpl implements BookService {
         /**
          * @see BookRepository#get(int, int)
          */
-        return bookRepository.get(id, customerId);
+        return bookRepository.getBookByIdAndCustomer_Id(id, customerId);
     }
 
     /**
@@ -84,7 +105,7 @@ public class BookServiceImpl implements BookService {
         /**
          * @see BookRepository#getAll(int)
          */
-        return bookRepository.getAll(customerId);
+        return bookRepository.getBooksByCustomer_Id(customerId);
     }
 
     /**
@@ -94,11 +115,19 @@ public class BookServiceImpl implements BookService {
      * @return the list of sorted by the param book objects
      */
     @Override
-    public List<Book> getSorted(String sortBy, int customerId) {
+    public List<Book> getSorted(String sortBy, int customerId) throws BookNotFoundException {
 
         /**
          * @see BookRepository#getSortedByParam(String, int)
          */
-        return bookRepository.getSortedByParam(sortBy, customerId);
+        if(sortBy.equals("name")) {
+            return bookRepository.getBooksByCustomer_IdOrderByName(customerId);
+        } else if (sortBy.equals("year")) {
+            return bookRepository.getBooksByCustomer_IdOrderByYear(customerId);
+        } else if (sortBy.equals("author")) {
+            return bookRepository.getBooksByCustomer_IdOrderByAuthor(customerId);
+        }
+
+        throw new BookNotFoundException("There is no books");
     }
 }

@@ -3,6 +3,7 @@ package com.babichev.bookmanager.repository;
 
 import com.babichev.bookmanager.entity.Customer;
 import com.babichev.bookmanager.repository.customer.CustomerRepository;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class CustomerRepositoryJpaTest {
     @Test
     public void add() {
         Customer customer = createCustomer();
-        Customer add = customerRepository.add(customer);
+        Customer add = customerRepository.save(customer);
         customer.setId(add.getId());
 
         assertThat(add)
@@ -35,7 +36,7 @@ public class CustomerRepositoryJpaTest {
 
     @Test
     public void getById() {
-        Customer customer = customerRepository.get(FIRST_CUSTOMER.getId());
+        Customer customer = customerRepository.getCustomerById(FIRST_CUSTOMER.getId());
         Customer firstCustomer = FIRST_CUSTOMER;
         firstCustomer.setBooks(customer.getBooks());
 
@@ -47,31 +48,29 @@ public class CustomerRepositoryJpaTest {
 
     @Test
     public void remove() {
-        Customer getted = customerRepository.get(SECOND_CUSTOMER.getId());
+        Customer getted = customerRepository.getCustomerById(SECOND_CUSTOMER.getId());
 
         assertThat(getted)
                 .usingRecursiveComparison()
                 .ignoringFields("books", "roles")
                 .isEqualTo(SECOND_CUSTOMER);
 
-        customerRepository.remove(getted.getId());
+        customerRepository.deleteCustomerById(getted.getId());
 
-//        Assert.assertEquals(null, customerRepository.get(getted.getId()));
+        Assert.assertEquals(null, customerRepository.getCustomerById(getted.getId()));
     }
 
     @Test
     public void update() {
-        Customer getted = customerRepository.get(FIRST_CUSTOMER.getId());
+        Customer getted = customerRepository.getCustomerById(FIRST_CUSTOMER.getId());
         int customerId = getted.getId();
 
         Customer updated = updatedCustomer(getted);
-        Customer addUpdated = customerRepository.add(updated);
+        Customer addUpdated = customerRepository.save(updated);
 
         assertThat(addUpdated)
                 .usingRecursiveComparison()
                 .ignoringFields("books", "roles")
-                .isEqualTo(customerRepository.get(customerId));
-
-
+                .isEqualTo(customerRepository.getCustomerById(customerId));
     }
 }

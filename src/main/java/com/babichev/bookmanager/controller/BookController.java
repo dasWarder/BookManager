@@ -3,6 +3,7 @@ package com.babichev.bookmanager.controller;
 
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Customer;
+import com.babichev.bookmanager.exception.BookNotFoundException;
 import com.babichev.bookmanager.service.book.BookService;
 import com.babichev.bookmanager.service.detail.DetailsService;
 import com.babichev.bookmanager.service.parser.DetailsParserService;
@@ -39,7 +40,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/books")
-    public String getAll(@RequestParam(value = "sort", required = false) String sortBy, Model model) {
+    public String getAll(@RequestParam(value = "sort", required = false) String sortBy, Model model) throws BookNotFoundException {
         int customerId = securityUtil.getAuthUserId();
         log.info("Get all books for customer {}", customerId);
         List<Book> all = isNull(sortBy)?
@@ -88,7 +89,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/books/book/{id}")
-    public String get(@PathVariable("id") int id, Model model) {
+    public String get(@PathVariable("id") int id, Model model) throws BookNotFoundException {
         int customerId = securityUtil.getAuthUserId();
         log.info("Get details for book with id {} for customer with id {}", id, customerId);
         Book book = bookService.getBookById(id, customerId);

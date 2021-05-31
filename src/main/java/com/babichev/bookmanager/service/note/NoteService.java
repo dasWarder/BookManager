@@ -1,6 +1,7 @@
 package com.babichev.bookmanager.service.note;
 
 import com.babichev.bookmanager.entity.Note;
+import com.babichev.bookmanager.exception.BookNotFoundException;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface NoteService {
      * @param bookId the ID of a book which one the note is belong
      * @return the note object with ID stored to the database
      */
-    Note add(Note note, int bookId);
+    Note add(Note note, int bookId) throws BookNotFoundException;
 
     /**
      * The method to validate a note object for receiving it from the database

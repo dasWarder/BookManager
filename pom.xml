@@ -13,6 +13,7 @@
     <version>0.3.5</version>
     <name>bookmanager</name>
     <description>Book manager for getting information about books</description>
+    <packaging>jar</packaging>
     <properties>
         <java.version>11</java.version>
         <validation.version>6.2.0.Final</validation.version>

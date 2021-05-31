@@ -2,6 +2,7 @@ package com.babichev.bookmanager.service.role;
 
 import com.babichev.bookmanager.entity.Role;
 import com.babichev.bookmanager.exception.RoleNotFoundException;
+import com.babichev.bookmanager.repository.customer.CustomerRepository;
 import com.babichev.bookmanager.repository.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class RoleServiceImpl implements RoleService {
         /**
          * @see RoleRepository#add(Role) 
          */
-        Role stored = roleRepository.add(role);
+        Role stored = roleRepository.save(role);
 
         return stored;
     }
@@ -54,7 +55,7 @@ public class RoleServiceImpl implements RoleService {
         /**
          * @see RoleRepository#get(int) 
          */
-        Role role = roleRepository.get(roleId);
+        Role role = roleRepository.getRoleById(roleId);
 
         if (role == null) {
             throw new RoleNotFoundException(
@@ -73,7 +74,7 @@ public class RoleServiceImpl implements RoleService {
         /**
          * @see RoleRepository#remove(int) 
          */
-        roleRepository.remove(roleId);
+        roleRepository.deleteRoleById(roleId);
     }
 
     /**
@@ -87,7 +88,7 @@ public class RoleServiceImpl implements RoleService {
         /**
          * @see RoleRepository#getByName(String) 
          */
-        Optional<Role> byName = roleRepository.getByName(name);
+        Optional<Role> byName = roleRepository.getRoleByName(name);
 
         if(!byName.isPresent()) {
             throw new RoleNotFoundException(

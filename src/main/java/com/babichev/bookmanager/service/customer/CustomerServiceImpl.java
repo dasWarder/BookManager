@@ -35,7 +35,9 @@ public class CustomerServiceImpl implements CustomerService {
     private MailSenderService mailSenderService;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, MailSenderService mailSenderService) {
+    public CustomerServiceImpl(CustomerRepository customerRepository,
+                               MailSenderService mailSenderService
+    ) {
         this.customerRepository = customerRepository;
         this.mailSenderService = mailSenderService;
     }
@@ -57,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
         /**
          * @see CustomerRepository#add(Customer)
          */
-        return customerRepository.add(customer);
+        return customerRepository.save(customer);
     }
 
     /**
@@ -72,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService {
         /**
          * @see CustomerRepository#get(int)
          */
-        return customerRepository.get(customerId);
+        return customerRepository.getCustomerById(customerId);
     }
 
     /**
@@ -86,7 +88,7 @@ public class CustomerServiceImpl implements CustomerService {
         /**
          * @see CustomerRepository#remove(int)
          */
-        customerRepository.remove(customerId);
+        customerRepository.deleteCustomerById(customerId);
     }
 
     /**
@@ -101,7 +103,7 @@ public class CustomerServiceImpl implements CustomerService {
         /**
          * @see CustomerRepository#getCustomerByUsername(String)
          */
-        Optional<Customer> customerByUsername = customerRepository.getCustomerByUsername(name);
+        Optional<Customer> customerByUsername = customerRepository.getCustomerByLogin(name);
 
         if(!customerByUsername.isPresent()) {
             throw new CustomerNotFoundException(

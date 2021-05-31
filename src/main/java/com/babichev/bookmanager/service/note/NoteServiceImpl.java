@@ -1,8 +1,13 @@
 package com.babichev.bookmanager.service.note;
 
+import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Note;
+import com.babichev.bookmanager.exception.BookNotFoundException;
+import com.babichev.bookmanager.repository.book.BookRepository;
 import com.babichev.bookmanager.repository.customer.CustomerRepository;
 import com.babichev.bookmanager.repository.note.NoteRepository;
+import com.babichev.bookmanager.service.AbstractService;
+import com.babichev.bookmanager.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -15,7 +20,7 @@ import java.util.List;
  * The service class that implements NoteService interface
  */
 @Service
-public class NoteServiceImpl implements NoteService {
+public class NoteServiceImpl extends AbstractService implements NoteService {
 
     /**
      * The field with a note repository bean
@@ -23,8 +28,8 @@ public class NoteServiceImpl implements NoteService {
      */
     private NoteRepository noteRepository;
 
-    @Autowired
-    public NoteServiceImpl(NoteRepository noteRepository) {
+    public NoteServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, NoteRepository noteRepository) {
+        super(bookRepository, securityUtil);
         this.noteRepository = noteRepository;
     }
 
@@ -36,13 +41,28 @@ public class NoteServiceImpl implements NoteService {
      */
     @Override
     @Transactional
-    public Note add(Note note, int bookId) {
-        Assert.notNull(note, "note must not be null");
+    public Note add(Note note, int bookId) throws BookNotFoundException {
+        Book bookFromDb = bookRepository.getBookByIdAndCustomer_Id(bookId, getLoggedUserId());
 
-        /**
-         * @see NoteRepository#add(Note, int)
-         */
-        return noteRepository.add(note, bookId);
+        Assert.notNull(note, "note must not be null");
+        Assert.notNull(bookFromDb, "the book must be not null");
+
+        if(note.getBook() == null) {
+
+            note.setBook(bookFromDb);
+            /**
+             * @see NoteRepository#add(Note, int)
+             */
+            return noteRepository.save(note);
+        }
+
+        Book book = note.getBook();
+
+        if(book.getId() == bookId) {
+            return noteRepository.save(note);
+        }
+
+        throw new BookNotFoundException("Wrong book id");
     }
 
     /**
@@ -57,7 +77,7 @@ public class NoteServiceImpl implements NoteService {
         /**
          * @see NoteRepository#get(int, int)
          */
-        return noteRepository.get(id, bookId);
+        return noteRepository.getNoteByIdAndBook_Id(id, bookId);
     }
 
     /**
@@ -71,7 +91,7 @@ public class NoteServiceImpl implements NoteService {
         /**
          * @see NoteRepository#remove(int, int)
          */
-        noteRepository.remove(id, bookId);
+        noteRepository.deleteNoteByIdAndBook_Id(id, bookId);
     }
 
     /**
@@ -81,6 +101,6 @@ public class NoteServiceImpl implements NoteService {
      */
     @Override
     public List<Note> getAll(int bookId) {
-        return noteRepository.getAll(bookId);
+        return noteRepository.getNotesByBook_Id(bookId);
     }
 }

@@ -25,7 +25,8 @@ public class DetailsRepositoryJpaTest {
     @Test
     public void add() {
         Details details = createDetails();
-        Details add = detailsRepository.add(details, FIRST_BOOK.getId());
+        details.setBook(FIRST_BOOK);
+        Details add = detailsRepository.save(details);
         details.setId(add.getId());
 
         Assert.assertEquals(details, add);
@@ -33,20 +34,20 @@ public class DetailsRepositoryJpaTest {
 
     @Test
     public void update() {
-        Details added = detailsRepository.get(FIRST_DETAILS.getId(), FIRST_BOOK.getId());
+        Details added = detailsRepository.getByIdAndBook_Id(FIRST_DETAILS.getId(), FIRST_BOOK.getId());
         int id = added.getId();
         Details forUpdate = TestData.updatedDetails(added);
-        forUpdate = detailsRepository.add(forUpdate, FIRST_BOOK.getId());
+        forUpdate = detailsRepository.save(forUpdate);
 
         assertThat(forUpdate)
                 .usingRecursiveComparison()
                 .ignoringFields("book")
-                .isEqualTo(detailsRepository.get(id, FIRST_BOOK.getId()));
+                .isEqualTo(detailsRepository.getByIdAndBook_Id(id, FIRST_BOOK.getId()));
     }
 
     @Test
     public void getById() {
-        Details details = detailsRepository.get(FIRST_DETAILS.getId(), FIRST_BOOK.getId());
+        Details details = detailsRepository.getByIdAndBook_Id(FIRST_DETAILS.getId(), FIRST_BOOK.getId());
         Details firstDetails = FIRST_DETAILS;
         firstDetails.setBook(details.getBook());
 
@@ -59,17 +60,18 @@ public class DetailsRepositoryJpaTest {
     @Test
     public void remove() {
         Details details = FIRST_DETAILS;
-        Details add = detailsRepository.add(FIRST_DETAILS, FIRST_BOOK.getId());
-        Details getted = detailsRepository.get(FIRST_DETAILS.getId(), FIRST_BOOK.getId());
+        details.setBook(FIRST_BOOK);
+        Details add = detailsRepository.save(FIRST_DETAILS);
+        Details getted = detailsRepository.getByIdAndBook_Id(FIRST_DETAILS.getId(), FIRST_BOOK.getId());
 
         assertThat(add)
                 .usingRecursiveComparison()
                 .ignoringFields("book")
                 .isEqualTo(getted);
 
-        detailsRepository.remove(details.getId(), FIRST_BOOK.getId());
+        detailsRepository.deleteByIdAndBook_Id(details.getId(), FIRST_BOOK.getId());
 
-        Assert.assertEquals(null, detailsRepository.get(details.getId(), FIRST_BOOK.getId()));
+        Assert.assertEquals(null, detailsRepository.getByIdAndBook_Id(details.getId(), FIRST_BOOK.getId()));
     }
 
 }

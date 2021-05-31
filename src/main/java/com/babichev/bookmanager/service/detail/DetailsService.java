@@ -1,6 +1,7 @@
 package com.babichev.bookmanager.service.detail;
 
 import com.babichev.bookmanager.entity.Details;
+import com.babichev.bookmanager.exception.BookNotFoundException;
 
 
 /**
@@ -14,7 +15,7 @@ public interface DetailsService {
      * @param bookId the ID of a book which one the details are belong
      * @return the details object with ID stored to the database
      */
-    Details add(Details details, int bookId);
+    Details add(Details details, int bookId) throws BookNotFoundException;
 
     /**
      * The method to validate a details object for receiving it from the database

@@ -2,7 +2,7 @@
 
 BookManager for work with books.
 
-_Version 0.2.4:_
+_Version 0.3.5:_
 
 0.1.0: Add the application skeleton, Entity, Repo and controller layers
 

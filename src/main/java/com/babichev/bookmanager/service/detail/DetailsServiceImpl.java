@@ -1,8 +1,13 @@
 package com.babichev.bookmanager.service.detail;
 
+import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Details;
+import com.babichev.bookmanager.exception.BookNotFoundException;
+import com.babichev.bookmanager.repository.book.BookRepository;
 import com.babichev.bookmanager.repository.customer.CustomerRepository;
 import com.babichev.bookmanager.repository.detail.DetailsRepository;
+import com.babichev.bookmanager.service.AbstractService;
+import com.babichev.bookmanager.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +18,7 @@ import org.springframework.util.Assert;
  * The service class that implements DetailsService interface
  */
 @Service
-public class DetailsServiceImpl implements DetailsService {
+public class DetailsServiceImpl extends AbstractService implements DetailsService {
 
     /**
      * The field with a details repository bean
@@ -22,8 +27,9 @@ public class DetailsServiceImpl implements DetailsService {
     private DetailsRepository detailsRepository;
 
     @Autowired
-    public DetailsServiceImpl(DetailsRepository detailsDao) {
-        this.detailsRepository = detailsDao;
+    public DetailsServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, DetailsRepository detailsRepository) {
+        super(bookRepository, securityUtil);
+        this.detailsRepository = detailsRepository;
     }
 
     /**
@@ -34,13 +40,28 @@ public class DetailsServiceImpl implements DetailsService {
      */
     @Override
     @Transactional
-    public Details add(Details details, int bookId) {
-        Assert.notNull(details, "details must not be null");
+    public Details add(Details details, int bookId) throws BookNotFoundException {
+        Book book = bookRepository.getBookByIdAndCustomer_Id(bookId, getLoggedUserId());
 
-        /**
-         * @see DetailsRepository#add(Details, int)
-         */
-        return detailsRepository.add(details, bookId);
+        Assert.notNull(details, "details must not be null");
+        Assert.notNull(book, "book must be not null");
+
+        if(details.getBook() == null) {
+            details.setBook(book);
+
+            /**
+             * @see DetailsRepository#add(Details, int)
+             */
+            return detailsRepository.save(details);
+        }
+
+        Book currentBook = details.getBook();
+
+        if(currentBook.getId() == bookId) {
+            return detailsRepository.save(details);
+        }
+
+        throw new BookNotFoundException("Wrong book id");
     }
 
     /**
@@ -55,7 +76,7 @@ public class DetailsServiceImpl implements DetailsService {
         /**
          * @see DetailsRepository#get(int, int)
          */
-        return detailsRepository.get(detailsId, bookId);
+        return detailsRepository.getByIdAndBook_Id(detailsId, bookId);
     }
 
     /**
@@ -69,6 +90,6 @@ public class DetailsServiceImpl implements DetailsService {
         /**
          * @see DetailsRepository#remove(int, int)
          */
-        detailsRepository.remove(detailsId, bookId);
+        detailsRepository.deleteByIdAndBook_Id(detailsId, bookId);
     }
 }

@@ -29,28 +29,33 @@ public class NoteRepositoryJpaTest {
     @Test
     public void add() {
         Note note = createNote();
-        Note add = noteRepository.add(note, FIRST_BOOK.getId());
+
+        Note add = noteRepository.save(note);
         note.setId(add.getId());
 
-        Assert.assertEquals(note, add);
+        assertThat(add)
+                .usingRecursiveComparison()
+                .ignoringFields("book")
+                .isEqualTo(note);
     }
 
     @Test
     public void update() {
-        Note note = noteRepository.get(FIRST_NOTE.getId(), SECOND_BOOK.getId());
+        Note note = noteRepository.getNoteByIdAndBook_Id(FIRST_NOTE.getId(), SECOND_BOOK.getId());
         int id = note.getId();
         Note forUpdate = TestData.updateNote(note);
-        forUpdate = noteRepository.add(forUpdate, SECOND_BOOK.getId());
+        forUpdate.setBook(SECOND_BOOK);
+        forUpdate = noteRepository.save(forUpdate);
 
         assertThat(forUpdate)
                 .usingRecursiveComparison()
                 .ignoringFields("book")
-                .isEqualTo(noteRepository.get(id, SECOND_BOOK.getId()));
+                .isEqualTo(noteRepository.getNoteByIdAndBook_Id(id, SECOND_BOOK.getId()));
     }
 
     @Test
     public void getById() {
-        Note note = noteRepository.get(FIRST_NOTE.getId(), SECOND_BOOK.getId());
+        Note note = noteRepository.getNoteByIdAndBook_Id(FIRST_NOTE.getId(), SECOND_BOOK.getId());
         Note firstNote = FIRST_NOTE;
         firstNote.setBook(note.getBook());
 
@@ -64,9 +69,9 @@ public class NoteRepositoryJpaTest {
     public void remove() {
         Note note = FIRST_NOTE;
 
-        noteRepository.remove(note.getId(), SECOND_BOOK.getId());
+        noteRepository.deleteNoteByIdAndBook_Id(note.getId(), SECOND_BOOK.getId());
 
-        Assert.assertEquals(null, noteRepository.get(note.getId(), SECOND_BOOK.getId()));
+        Assert.assertEquals(null, noteRepository.getNoteByIdAndBook_Id(note.getId(), SECOND_BOOK.getId()));
     }
 
 
@@ -74,7 +79,7 @@ public class NoteRepositoryJpaTest {
     public void getAll() {
         List<Note> testNotes = notes;
 
-        List<Note> originNotes = noteRepository.getAll(SECOND_BOOK.getId());
+        List<Note> originNotes = noteRepository.getNotesByBook_Id(SECOND_BOOK.getId());
 
         assertThat(testNotes)
                 .usingRecursiveComparison()

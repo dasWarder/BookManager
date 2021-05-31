@@ -38,11 +38,11 @@ public class CustomerMapper {
     }
 
     private Role getRole(String name) {
-        Optional<Role> byName = roleRepository.getByName(name);
+        Optional<Role> byName = roleRepository.getRoleByName(name);
 
         if(!byName.isPresent()) {
             Role role = new Role(name);
-            roleRepository.add(role);
+            roleRepository.save(role);
 
             return role;
         }

@@ -27,7 +27,7 @@ class RoleRepositoryJpaTest {
     @Test
     public void add() {
         Role role = createRole();
-        Role added = roleRepository.add(role);
+        Role added = roleRepository.save(role);
         role.setId(added.getId());
 
         Assert.assertEquals(added, role);
@@ -35,10 +35,10 @@ class RoleRepositoryJpaTest {
 
     @Test
     public void update() {
-        Role roleFromDb = roleRepository.get(USER_ROLE.getId());
+        Role roleFromDb = roleRepository.getRoleById(USER_ROLE.getId());
         int id = roleFromDb.getId();
         Role updatedRole = updateRole(roleFromDb);
-        Role updatedFromDb = roleRepository.add(updatedRole);
+        Role updatedFromDb = roleRepository.save(updatedRole);
         updatedRole.setId(id);
 
         Assert.assertEquals(roleFromDb, updatedFromDb);
@@ -47,7 +47,7 @@ class RoleRepositoryJpaTest {
 
     @Test
     public void getById() {
-        Role roleFromDb = roleRepository.get(USER_ROLE.getId());
+        Role roleFromDb = roleRepository.getRoleById(USER_ROLE.getId());
 
         Assert.assertEquals(roleFromDb, USER_ROLE);
     }
@@ -56,7 +56,7 @@ class RoleRepositoryJpaTest {
     public void getByName() {
         String name = USER_ROLE.getName();
         Optional<Role> fromDbByName =
-                roleRepository.getByName(name);
+                roleRepository.getRoleByName(name);
 
         Role role = fromDbByName.get();
 
@@ -67,12 +67,12 @@ class RoleRepositoryJpaTest {
 
     @Test
     public void remove() {
-        Role roleFromDb = roleRepository.get(USER_ROLE.getId());
+        Role roleFromDb = roleRepository.getRoleById(USER_ROLE.getId());
 
         Assert.assertEquals(roleFromDb, USER_ROLE);
 
-        roleRepository.remove(roleFromDb.getId());
+        roleRepository.deleteRoleById(roleFromDb.getId());
 
-        Assert.assertEquals(null, roleRepository.get(roleFromDb.getId()));
+        Assert.assertEquals(null, roleRepository.getRoleById(roleFromDb.getId()));
     }
 }

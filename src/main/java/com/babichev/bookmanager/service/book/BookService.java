@@ -1,6 +1,7 @@
 package com.babichev.bookmanager.service.book;
 
 import com.babichev.bookmanager.entity.Book;
+import com.babichev.bookmanager.exception.BookNotFoundException;
 
 import java.util.List;
 
@@ -45,5 +46,5 @@ public interface BookService {
      * @param customerId the ID of a customer which one the list of books must belong
      * @return the sorted list of books from the database
      */
-    List<Book> getSorted(String sortBy, int customerId);
+    List<Book> getSorted(String sortBy, int customerId) throws BookNotFoundException;
 }

@@ -2,6 +2,7 @@ package com.babichev.bookmanager.controller;
 
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Note;
+import com.babichev.bookmanager.exception.BookNotFoundException;
 import com.babichev.bookmanager.service.book.BookService;
 import com.babichev.bookmanager.service.note.NoteService;
 import com.babichev.bookmanager.util.SecurityUtil;
@@ -22,6 +23,7 @@ import java.util.List;
 public class NoteController {
 
     private NoteService noteService;
+
     private BookService bookService;
 
     @Autowired
@@ -45,7 +47,7 @@ public class NoteController {
 
 
     @PostMapping(value = "/books/book/{id}/notes/add")
-    public String add(@PathVariable("id") int bookId, @RequestParam("comment") String comment, Model model) {
+    public String add(@PathVariable("id") int bookId, @RequestParam("comment") String comment, Model model) throws BookNotFoundException {
         log.info("Add a note for book with id {}", bookId);
         Note note = noteService.add(new Note(LocalDateTime.now(), comment), bookId);
         log.info("Note with id {} was successfully added", note.getId());

@@ -1,6 +1,7 @@
 package com.babichev.bookmanager.controller;
 
 
+import com.babichev.bookmanager.dto.BookSearchCriteria;
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.entity.Customer;
 import com.babichev.bookmanager.exception.BookNotFoundException;
@@ -54,22 +55,26 @@ public class BookController {
     }
 
     @GetMapping(value = "/books")
-    public String getAll(@RequestParam(value = "sort", required = false) String sortBy,
+    public String getAll(@RequestParam(value = "sort", required = false, defaultValue = "id") String sortBy,
                          @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
-                         Model model) throws BookNotFoundException {
+                         @ModelAttribute("searchCriteria") BookSearchCriteria searchCriteria,
+                         Model model) {
 
         int customerId = securityUtil.getAuthUserId();
         log.info("Get all books for customer {}", customerId);
-        Page<Book> all = isNull(sortBy)?
-                bookService.getAll(customerId, pageable) :
-                bookService.getSorted(sortBy, customerId, pageable);
+
+        System.out.println(sortBy);
+
+        Page<Book> all = bookService.getFiltered(sortBy, customerId, pageable, searchCriteria);
 
         model.addAttribute("book", new Book());
         model.addAttribute("books", all);
+        model.addAttribute("searchCriteria", new BookSearchCriteria());
         model.addAttribute("size", Arrays.asList(5, 10, 25, 50));
 
         return "books";
     }
+
 
 
     @PostMapping(value = "/books")

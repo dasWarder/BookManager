@@ -1,8 +1,10 @@
 package com.babichev.bookmanager.service.book;
 
+import com.babichev.bookmanager.dto.BookSearchCriteria;
 import com.babichev.bookmanager.entity.Customer;
 import com.babichev.bookmanager.exception.BookNotFoundException;
 import com.babichev.bookmanager.exception.CustomerNotFoundException;
+import com.babichev.bookmanager.repository.book.BookCriteriaRepository;
 import com.babichev.bookmanager.repository.book.BookRepository;
 import com.babichev.bookmanager.entity.Book;
 import com.babichev.bookmanager.repository.customer.CustomerRepository;
@@ -25,7 +27,7 @@ import java.util.List;
  * The service class that implements BookService interface
  */
 @Service
-public class BookBookedServiceImpl extends AbstractBookedService implements BookService {
+public class BookServiceImpl extends AbstractBookedService implements BookService {
 
     /**
      * The field with a customer repository bean
@@ -33,10 +35,16 @@ public class BookBookedServiceImpl extends AbstractBookedService implements Book
      */
     private final CustomerRepository customerRepository;
 
-    @Autowired
-    public BookBookedServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, CustomerRepository customerRepository) {
+    private final BookCriteriaRepository bookCriteriaRepository;
+
+    public BookServiceImpl(BookRepository bookRepository,
+                           SecurityUtil securityUtil,
+                           CustomerRepository customerRepository,
+                           BookCriteriaRepository bookCriteriaRepository) {
+
         super(bookRepository, securityUtil);
         this.customerRepository = customerRepository;
+        this.bookCriteriaRepository = bookCriteriaRepository;
     }
 
     /**
@@ -99,36 +107,15 @@ public class BookBookedServiceImpl extends AbstractBookedService implements Book
     }
 
     /**
-     * The method to validate getAll command
-     * @param customerId the ID of a customer which one the collection of books must belong
-     * @return the list of all book objects from the database
-     */
-    @Override
-    public Page<Book> getAll(int customerId, Pageable pageable) {
-
-        /**
-         * @see BookRepository#getAll(int)
-         */
-        return bookRepository.getBooksByCustomer_Id(customerId, pageable);
-    }
-
-    /**
      * The method to validate getSorted command
      * @param sortBy the parameter for sorting the books
      * @param customerId the ID of a customer which one the list of books must belong
      * @return the list of sorted by the param book objects
      */
     @Override
-    public Page<Book> getSorted(String sortBy, int customerId, Pageable pageable) {
+    public Page<Book> getFiltered(String sortBy, int customerId, Pageable pageable, BookSearchCriteria searchCriteria) {
 
-        /**
-         * @see BookRepository#getSortedByParam(String, int)
-         */
-        return bookRepository.getBooksByCustomer_Id(customerId, PageRequest.of(
-                    pageable.getPageNumber(),
-                        pageable.getPageSize(),
-                        Sort.by(
-                                Sort.Direction.ASC,
-                                sortBy)));
+        return bookCriteriaRepository.findAllWithFilters(sortBy, customerId, pageable, searchCriteria);
     }
+
 }

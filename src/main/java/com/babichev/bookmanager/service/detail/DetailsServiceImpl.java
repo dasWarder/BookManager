@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
  * The service class that implements DetailsService interface
  */
 @Service
-public class DetailsBookedServiceImpl extends AbstractBookedService implements DetailsService {
+public class DetailsServiceImpl extends AbstractBookedService implements DetailsService {
 
     /**
      * The field with a details repository bean
@@ -26,7 +26,7 @@ public class DetailsBookedServiceImpl extends AbstractBookedService implements D
     private DetailsRepository detailsRepository;
 
     @Autowired
-    public DetailsBookedServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, DetailsRepository detailsRepository) {
+    public DetailsServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, DetailsRepository detailsRepository) {
         super(bookRepository, securityUtil);
         this.detailsRepository = detailsRepository;
     }

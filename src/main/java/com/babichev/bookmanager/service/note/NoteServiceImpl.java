@@ -18,7 +18,7 @@ import java.util.List;
  * The service class that implements NoteService interface
  */
 @Service
-public class NoteBookedServiceImpl extends AbstractBookedService implements NoteService {
+public class NoteServiceImpl extends AbstractBookedService implements NoteService {
 
     /**
      * The field with a note repository bean
@@ -26,7 +26,7 @@ public class NoteBookedServiceImpl extends AbstractBookedService implements Note
      */
     private NoteRepository noteRepository;
 
-    public NoteBookedServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, NoteRepository noteRepository) {
+    public NoteServiceImpl(BookRepository bookRepository, SecurityUtil securityUtil, NoteRepository noteRepository) {
         super(bookRepository, securityUtil);
         this.noteRepository = noteRepository;
     }

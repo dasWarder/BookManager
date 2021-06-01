@@ -21,11 +21,22 @@
         </div>
         <div class="row">
             <div class="col">
-                <form  align="center" class="form-inline my-4" action="#" th:action="@{/books/add}" method="post" th:object="${book}">
+                <form  align="center" class="form-inline my-4" action="#" th:action="@{/books}" method="post" th:object="${book}">
                     <input type="hidden" th:field="*{id}"/>
-                    <label>Title: <input type="text" th:field="*{name}"/> </label>
-                    <label>Author: <input type="text" th:field="*{author}"/> </label>
-                    <label>Year: <input type="text" th:field="*{year}"/> </label>
+                    <label>Title:
+                        <input type="text" th:field="*{name}"/>
+                        <small class="form-text text-muted" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Title error</small>
+                    </label>
+                    <label>Author:
+                        <input type="text" th:field="*{author}"/>
+                        <small class="form-text text-muted" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author error</small>
+                    </label>
+
+                    <label>Year:
+                        <input type="text" th:field="*{year}"/>
+                        <small class="form-text text-muted" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Year error</small>
+                    </label>
+
                     <button type="submit" class="btn btn-warning btn-sm mx-2"> Add </button>
                 </form>
             </div>
@@ -38,8 +49,8 @@
                     </li>
                 </ul>
                 <ul class="pagination justify-content-end">
-                    <li class="page-item active" th:if="${books.getNumber} > 0">
-                        <a class="page-link" th:href="@{'/books?page=' + ${books.getNumber - 1}+ '&size=' + ${books.getSize}}">Previous</a>
+                    <li class="page-item" th:if="${books.getNumber} > 0">
+                        <a class="page-link" th:href="@{'/books?page=' + ${books.getNumber - 1} + '&size=' + ${books.getSize}}">Previous</a>
                     </li>
                     <li class="page-item" th:each="page: ${#numbers.sequence(0, books.getTotalPages() - 1)}">
                         <a class="page-link" th:href="@{'/books?page=' + ${page} + '&size=' + ${books.getSize}}" th:text="${page + 1}"></a>
@@ -88,7 +99,7 @@
                     </li>
                 </ul>
                 <ul class="pagination justify-content-end">
-                    <li class="page-item active" th:if="${books.getNumber} > 0">
+                    <li class="page-item" th:if="${books.getNumber} > 0">
                         <a class="page-link" th:href="@{'/books?page=' + ${books.getNumber - 1}+ '&size=' + ${books.getSize}}">Previous</a>
                     </li>
                     <li class="page-item" th:each="page: ${#numbers.sequence(0, books.getTotalPages() - 1)}">

@@ -16,19 +16,21 @@
         <div class="row">
             <div class="col"></div>
             <div class="col">
-                <form class="form-signin" method="post" action="#" th:action="@{/register}" th:object="${customer}">
+                <form class="form-signin" method="post" action="#" th:action="@{/register}" th:object="${customerDto}">
                     <h2 class="form-signin-heading">Sign up</h2>
                     <p>
                         <label for="login" class="sr-only">Email</label>
-                        <input type="text" th:name="login" id="login" name="login" th:field="*{login}" class="form-control" required autofocus>
+                        <input type="text" th:name="login" id="login" name="login" th:field="*{login}" class="form-control" required autofocus placeholder="email">
+                        <small class="form-text text-muted" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Email error</small>
                     </p>
                     <p>
                         <label class="sr-only">Password</label>
-                        <input type="password" class="form-control" required>
+                        <input type="password" class="form-control" required placeholder="password">
                     </p>
                     <p>
                         <label class="sr-only">Password</label>
-                        <input type="password" th:name="password" id="password_control" name="password" th:field="*{password}" class="form-control" placeholder="password" required>
+                        <input type="password" th:name="password" id="password_control" name="password" th:field="*{password}" class="form-control" placeholder="repeat password" required>
+                        <small class="form-text text-muted" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</small>
                     </p>
                     <input name="_csrf" type="hidden" value="a51f10fa-2601-4464-8cc4-6f71bb59d6ac" />
                     <button class="btn btn-lg btn-warning btn-block" type="submit">Sign up</button>

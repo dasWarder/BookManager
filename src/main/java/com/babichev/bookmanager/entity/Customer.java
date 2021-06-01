@@ -5,6 +5,10 @@ import lombok.*;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 /**
@@ -18,10 +22,16 @@ import java.util.*;
 @Table(name = "users")
 public class Customer extends AbstractIdEntity {
 
-
-    @Column(name = "username", nullable = false)
+    @Email
+    @NotNull
+    @NotBlank
+    @Size(min = 8, max = 255)
+    @Column(name = "username", nullable = false, length = 255)
     private String login;
 
+    @NotNull
+    @NotBlank
+    @Size(min = 7, max = 60)
     @Column(name = "password", nullable = false)
     private String password;
 

@@ -20,8 +20,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -70,9 +72,14 @@ public class BookController {
     }
 
 
-    @PostMapping(value = "/books/add")
-    public String add(@ModelAttribute("book") Book book) {
+    @PostMapping(value = "/books")
+    public String add(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult) {
         int customerId = securityUtil.getAuthUserId();
+
+        if(bindingResult.hasErrors()) {
+            return "redirect:/books";
+        }
+
         log.info("Add a book {} for customer {}", book, customerId);
         bookService.addBook(book, customerId);
 

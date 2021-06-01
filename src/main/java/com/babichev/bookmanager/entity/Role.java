@@ -3,6 +3,8 @@ package com.babichev.bookmanager.entity;
 import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -15,6 +17,8 @@ import javax.persistence.Table;
 @Table(name = "roles")
 public class Role extends AbstractIdEntity {
 
+    @NotNull
+    @NotBlank
     private String name;
 
     public Role(String name) {

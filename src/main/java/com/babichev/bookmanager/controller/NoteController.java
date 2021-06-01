@@ -10,11 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -47,7 +49,9 @@ public class NoteController {
 
 
     @PostMapping(value = "/books/book/{id}/notes/add")
-    public String add(@PathVariable("id") int bookId, @RequestParam("comment") String comment, Model model) throws BookNotFoundException {
+    public String add(@PathVariable("id") int bookId, @RequestParam("comment") String comment,
+                      Model model) throws BookNotFoundException {
+
         log.info("Add a note for book with id {}", bookId);
         Note note = noteService.add(new Note(LocalDateTime.now(), comment), bookId);
         log.info("Note with id {} was successfully added", note.getId());

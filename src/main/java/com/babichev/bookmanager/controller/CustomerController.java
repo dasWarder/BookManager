@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @Slf4j
@@ -29,15 +32,18 @@ public class CustomerController {
     @GetMapping(value = "/register")
     public String signUp(Model model) {
 
-        model.addAttribute("customer", new CustomerDTO());
+        model.addAttribute("customerDto", new CustomerDTO());
 
         return "signUp";
     }
 
     @PostMapping(value = "/register")
-    public String register(CustomerDTO dto) {
+    public String register(@Valid @ModelAttribute("customerDto") CustomerDTO dto, BindingResult bindingResult) {
         String encoded = passwordEncoder.encode(dto.getPassword());
         dto.setPassword(encoded);
+        if(bindingResult.hasErrors()) {
+            return "signUp";
+        }
 
         Customer customer = mapper.fromDtoToUserCustomer(dto);
         customerService.add(customer);

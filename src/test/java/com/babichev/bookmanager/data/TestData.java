@@ -9,8 +9,8 @@ public class TestData {
 
     public static final Role USER_ROLE = new Role(100, "USER");
 
-    public static final Customer FIRST_CUSTOMER = new Customer(20, "marrySmith3", "12345", true);
-    public static final Customer SECOND_CUSTOMER = new Customer(21, "warder", "12345", true);
+    public static final Customer FIRST_CUSTOMER = new Customer(20, "marrySmith3@gmail.com", "1234567", true);
+    public static final Customer SECOND_CUSTOMER = new Customer(21, "warder@gmail.com", "1234567", true);
 
     public static final Book FIRST_BOOK = new Book(3, "The Hobbit", "J.R.R.Tolkien", 1937);
     public static final Book SECOND_BOOK = new Book(4, "Harry Potter", "Rowling", 1994);
@@ -52,12 +52,12 @@ public class TestData {
     }
 
     public static Customer createCustomer() {
-        return new Customer("NEW CUSTOMER", "NEW PASSWORD");
+        return new Customer("newcustomer@gmail.com", "NEWPASSWORD");
     }
 
     public static Customer updatedCustomer(Customer customer) {
-        customer.setLogin("UPDATED LOGIN");
-        customer.setPassword("UPDATED PASSWORD");
+        customer.setLogin("updated@gmail.com");
+        customer.setPassword("UPDATEDPASSWORD");
 
         return customer;
     }

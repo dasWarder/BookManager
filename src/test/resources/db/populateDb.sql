@@ -1,7 +1,7 @@
 INSERT INTO roles(id, name) VALUES (100, 'USER');
 
-INSERT INTO users(id, username, password, enabled) VALUES (20, 'marrySmith3', '12345', true);
-INSERT INTO users(id, username, password, enabled) VALUES (21, 'warder', '12345', true);
+INSERT INTO users(id, username, password, enabled) VALUES (20, 'marrySmith3@gmail.com', '1234567', true);
+INSERT INTO users(id, username, password, enabled) VALUES (21, 'warder@gmail.com', '1234567', true);
 
 INSERT INTO book(id, name, author, year, customer_id) VALUES (3,'The Hobbit', 'J.R.R.Tolkien', 1937, 20);
 INSERT INTO book(id, name, author, year, customer_id) VALUES (4,'Harry Potter', 'Rowling', 1994, 20);

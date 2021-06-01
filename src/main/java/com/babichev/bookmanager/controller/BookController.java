@@ -66,10 +66,10 @@ public class BookController {
         System.out.println(sortBy);
 
         Page<Book> all = bookService.getFiltered(sortBy, customerId, pageable, searchCriteria);
-
+        BookSearchCriteria updatedCriteria = searchCriteria == null? new BookSearchCriteria() : searchCriteria;
         model.addAttribute("book", new Book());
         model.addAttribute("books", all);
-        model.addAttribute("searchCriteria", new BookSearchCriteria());
+        model.addAttribute("searchCriteria", updatedCriteria);
         model.addAttribute("size", Arrays.asList(5, 10, 25, 50));
 
         return "books";

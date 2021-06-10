@@ -3,6 +3,8 @@ package com.babichev.bookmanager.repository.book;
 
 import com.babichev.bookmanager.dto.BookSearchCriteria;
 import com.babichev.bookmanager.entity.Book;
+import com.babichev.bookmanager.entity.Book_;
+import com.babichev.bookmanager.entity.Customer_;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -74,35 +76,35 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 
         if(Objects.nonNull(customerId)) {
             predicates.add(
-                    criteriaBuilder.equal(bookRoot.get("customer").get("id"), customerId)
+                    criteriaBuilder.equal(bookRoot.get(Book_.CUSTOMER).get(Customer_.ID), customerId)
             );
             log.info("Add customerId predicate");
         }
 
         if(Objects.nonNull(searchCriteria.getTitle()) && !("".equals(searchCriteria.getTitle()))) {
             predicates.add(
-                    criteriaBuilder.like(bookRoot.get("name"), "%" + searchCriteria.getTitle() + "%")
+                    criteriaBuilder.like(bookRoot.get(Book_.NAME), "%" + searchCriteria.getTitle() + "%")
             );
             log.info("Add title predicate");
         }
 
         if(Objects.nonNull(searchCriteria.getAuthor())&& !("".equals(searchCriteria.getAuthor()))) {
             predicates.add(
-                    criteriaBuilder.like(bookRoot.get("author"), "%" + searchCriteria.getAuthor() + "%")
+                    criteriaBuilder.like(bookRoot.get(Book_.AUTHOR), "%" + searchCriteria.getAuthor() + "%")
             );
             log.info("Add author predicate");
         }
 
         if(Objects.nonNull(searchCriteria.getFrom()) && !("".equals(searchCriteria.getFrom()))) {
             predicates.add(
-                    criteriaBuilder.ge(bookRoot.get("year"), searchCriteria.getFrom())
+                    criteriaBuilder.ge(bookRoot.get(Book_.YEAR), searchCriteria.getFrom())
             );
             log.info("Add from predicate");
         }
 
         if(Objects.nonNull(searchCriteria.getTo()) && !("".equals(searchCriteria.getTo()))) {
             predicates.add(
-                    criteriaBuilder.le(bookRoot.get("year"), searchCriteria.getTo())
+                    criteriaBuilder.le(bookRoot.get(Book_.YEAR), searchCriteria.getTo())
             );
             log.info("Add to predicate");
         }

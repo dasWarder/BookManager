@@ -19,6 +19,8 @@
         <validation.version>6.2.0.Final</validation.version>
         <jsoup.version>1.13.1</jsoup.version>
         <lombok.version>1.18.20</lombok.version>
+        <jpamodelgen.version>5.3.7.Final</jpamodelgen.version>
+        <bytebyddy.version>1.9.12</bytebyddy.version>
     </properties>
     <dependencies>
 
@@ -67,7 +69,7 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy-dep</artifactId>
-            <version>1.9.12</version>
+            <version>${bytebyddy.version}</version>
         </dependency>
 
         <dependency>
@@ -104,6 +106,12 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${validation.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>${jpamodelgen.version}</version>
         </dependency>
     </dependencies>
 
